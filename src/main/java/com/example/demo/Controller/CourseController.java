@@ -1,6 +1,7 @@
 package com.example.demo.Controller;
 import com.example.demo.Model.*;
 import com.example.demo.Service.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class CourseController {
     private final CourseService courseService=new CourseService();
 
     @PostMapping
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
     public void createCourse(@RequestBody Course course){
         courseService.createCourse(course.getCourseId(),course.getCourseName(),course.getCourseDescreption());
     }
@@ -28,6 +30,7 @@ public class CourseController {
     }
 
     @PostMapping("/{courseId}/lessons")
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
     public void addLesson(@PathVariable String courseId,@RequestBody Lesson lesson){
         courseService.addLessonToCourse(courseId,lesson);
     }

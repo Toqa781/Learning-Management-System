@@ -1,17 +1,36 @@
 package com.example.demo.Model;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @Column(name = "user_id")
+
     private String userId;
-    private String username;
+    @Column(name = "name")
+
+    private String name;
+    @Column(name = "email")
+
     private String email;
+    @Column(name = "password")
+
     private String password;
+    @Column(name = "role")
+
     private String role;
 
-    public User(String role, String password, String email, String userName, String userId) {
+    public User(String role, String password, String email, String name, String userId) {
         this.role = role;
         this.password = password;
         this.email = email;
-        this.username = userName;
+        this.name = name;
         this.userId = userId;
+    }
+
+    public User() {
     }
 
     public String getUserId() {
@@ -22,12 +41,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.username = userName;
+    public void setUserName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -53,4 +72,8 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+
+
+
 }

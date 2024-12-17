@@ -26,4 +26,12 @@ public class Lesson {
     public String getOTP() {
         return OTP;
     }
+
+    public void attendLesson(Student student, String OTP) {
+        // Logic for students to attend the lesson
+    }
+
+    public void generateOTP(Instructor instructor) {
+        // OTP generation logic
+    }
 }

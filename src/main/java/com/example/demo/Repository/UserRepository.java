@@ -5,6 +5,7 @@ import com.example.demo.Model.User;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
-    Optional<User> findByUsername(String username);
+public interface UserRepository extends JpaRepository<User, String> {
+    boolean existsById(String id);
+    Optional<User> findById(String id);
 }

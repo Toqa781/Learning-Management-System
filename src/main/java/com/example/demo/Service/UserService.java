@@ -1,4 +1,7 @@
 package com.example.demo.Service;
+import com.example.demo.Model.Admin;
+import com.example.demo.Model.Instructor;
+import com.example.demo.Model.Student;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -6,8 +9,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
-import java.util.Optional;
 
+import java.util.Optional;
 
 
 // Not finished
@@ -22,19 +25,32 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userDetail = repository.findByUsername(username);
+    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+        Optional<User> userDetail = repository.findById(id);
         // Converting userDetail to UserDetails
         return userDetail.map(UserInfoDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
-    }
-    public void register(User userInfo) {
-        userInfo.setPassword(encoder.encode(userInfo.getPassword()));
-        repository.save(userInfo);
+                .orElseThrow(() -> new UsernameNotFoundException("User not found " + id));
     }
 
-    public boolean login(String username, String rawPassword) {
-        Optional<User> userOptional = repository.findByUsername(username);
+    public void register(User user) {
+        if (repository.existsById(user.getUserId())) {
+            throw new IllegalArgumentException("User ID already exists");
+        }
+
+        if (user instanceof Student) {
+            user.setRole("STUDENT");
+        } else if (user instanceof Instructor) {
+            user.setRole("INSTRUCTOR");
+        } else if (user instanceof Admin) {
+            user.setRole("ADMIN");
+        }
+
+        user.setPassword(encoder.encode(user.getPassword()));
+        repository.save(user);
+    }
+
+    public boolean login(String userId, String rawPassword) {
+        Optional<User> userOptional = repository.findById(userId);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -43,4 +59,14 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+    public void manageProfile() {
+
+    }
+
+    public void CreateUser(Admin admin) {
+
+    }
+
+
 }
+
