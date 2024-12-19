@@ -1,18 +1,43 @@
 package com.example.demo.Model;
 
 
+import jakarta.persistence.*;
 
+import java.util.UUID;
+
+@Entity
 public class Lesson {
-    String lessonId;
-    String lessonName;
-    String OTP;
+    @Id
+    private String lessonId;
+    private String lessonName;
+    private String OTP;
 
-    public Lesson(){}
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
 
-    public Lesson(String lessonId,String lessonName,String OTP){
-        this.lessonId=lessonId;
-        this.lessonName=lessonName;
-        this.OTP=OTP;
+    public Lesson() {}
+
+    public Lesson(String lessonId, String lessonName) {
+        if (lessonId == null || lessonName == null || lessonId.isEmpty() || lessonName.isEmpty()) {
+            throw new IllegalArgumentException("Lesson ID and name cannot be null or empty");
+        }
+        this.lessonId = lessonId;
+        this.lessonName = lessonName;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public void generateOtp(Instructor instructor) {
+        if (instructor != null) {
+            this.OTP = UUID.randomUUID().toString();
+        }
+    }
+
+    public boolean validateOtp(String otp) {
+        return this.OTP.equals(otp);
     }
 
     public String getLessonId() {
@@ -27,3 +52,4 @@ public class Lesson {
         return OTP;
     }
 }
+

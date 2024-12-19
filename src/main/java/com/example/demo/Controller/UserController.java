@@ -16,11 +16,12 @@ import com.example.demo.Service.UserService;
 //Not Finished
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
     private final UserService service;
     private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+
     UserController(UserService service, JWTService jwtService, AuthenticationManager authenticationManager) {
         this.service = service;
         this.jwtService = jwtService;
@@ -29,11 +30,14 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody User userInfo) {
+        // Assign default role if none is provided
+
+        if (userInfo.getRole() == null || userInfo.getRole().isEmpty()) {
+            userInfo.setRole("USER");
+        }
         service.register(userInfo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-
 
 
     @PostMapping("/login")
@@ -47,8 +51,6 @@ public class UserController {
             throw new UsernameNotFoundException("Invalid user request!");
         }
     }
-
-
 
 
 }
