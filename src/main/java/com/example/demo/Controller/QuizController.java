@@ -17,7 +17,7 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
-    private final CourseService courseService = new CourseService();
+    private CourseService courseService ;
 
     @PostMapping("/createQuiz")
     public ResponseEntity<Quiz> createQuiz(@PathVariable String courseId, @RequestBody Quiz quiz) {

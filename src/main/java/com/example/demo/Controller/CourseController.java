@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/courses")
+@RequestMapping("/{userId}/courses")
 public class CourseController {
     private final CourseService courseService;
 
@@ -18,7 +18,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     public void createCourse(@RequestBody Course course) {
         courseService.createCourse(course.getCourseId(), course.getCourseName(), course.getCourseDescription());

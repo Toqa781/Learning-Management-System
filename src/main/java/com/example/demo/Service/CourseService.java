@@ -1,39 +1,50 @@
 package com.example.demo.Service;
 
 import com.example.demo.Model.*;
+import com.example.demo.Model.Assessments.Questions.QuestionBank;
 import com.example.demo.Model.Users.Admin;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
+import com.example.demo.Repository.CourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
 public class CourseService {
-    private final Map<String, Course> courses = new HashMap<>();
+
+    private final CourseRepository courseRepository;
+
+    public CourseService(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
+    }
+
+    // private final Map<String, Course> courses = new HashMap<>();
 
     public void createCourse(String courseId, String courseName, String courseDescription) {
         Course course = new Course(courseId, courseName, courseDescription);
-        courses.put(courseId, course);
+        courseRepository.save(course);
     }
 
     public List<Course> getAllCourses() {
-        return new ArrayList<>(courses.values());
+        return new ArrayList<>(courseRepository.findAll());
     }
 
     public Course getCourseById(String courseId) {
-        return Optional.ofNullable(courses.get(courseId))
-                .orElseThrow(() -> new IllegalArgumentException("Course not found"));
+        return  courseRepository.findById(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Course not Found"));
     }
 
     public void addLessonToCourse(String courseId, Lesson lesson) {
         Course course = getCourseById(courseId); // Ensures course exists
         course.addLesson(lesson);
+        courseRepository.save(course);
     }
 
     public void enrollCourse(String courseId, Student student) {
         Course course = getCourseById(courseId); // Ensures course exists
         course.enrollStudent(student);
+        courseRepository.save(course);
     }
 
     public List<Student> getEnrolledStudents(String courseId) {
@@ -50,9 +61,17 @@ public class CourseService {
 
         if (lesson.validateOtp(otp)) {
             student.attendLesson(lessonId);
+            courseRepository.save(course);
         } else {
             throw new IllegalArgumentException("Invalid OTP");
         }
+    }
+
+    public void assignQuestionBankToCourse(String courseId , QuestionBank questionBank){
+        Course course = getCourseById(courseId);
+
+        course.setQuestionBank(questionBank);
+        courseRepository.save(course);
     }
 }
 

@@ -3,7 +3,6 @@ package com.example.demo.Service.Assessments;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Questions.Question;
 import com.example.demo.Model.Assessments.Quiz;
-import com.example.demo.Repository.Assesments.Questions.QuestionRepository;
 import com.example.demo.Repository.Assesments.QuizRepository;
 import com.example.demo.Repository.Assesments.Submissions.QuizSubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,6 @@ import static java.lang.Math.min;
 public class QuizService {
     @Autowired
     private QuizRepository quizRepository;
-
-    @Autowired
-    private QuestionRepository questionRepository;
 
     @Autowired
     private QuizSubmissionRepository quizSubmissionRepository;
