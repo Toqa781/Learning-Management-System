@@ -1,10 +1,23 @@
 package com.example.demo.Model;
 
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
+@Entity
+//@Table(name = "lessons")
 public class Lesson {
+    @Id
+//    @Column(name = "lessonId")
+
     String lessonId;
+//    @Column(name = "lessonName")
+
     String lessonName;
+//    @Column(name = "otp")
+
     String OTP;
 
     public Lesson(){}

@@ -14,6 +14,7 @@ import com.example.demo.Service.JWTService;
 import com.example.demo.Service.UserService;
 
 @Component
+
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
     private final UserService userDetailsService;

@@ -16,7 +16,7 @@ public class CourseController {
     @PostMapping
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     public void createCourse(@RequestBody Course course){
-        courseService.createCourse(course.getCourseId(),course.getCourseName(),course.getCourseDescreption());
+        courseService.createCourse(course.getCourseId(),course.getCourseName(),course.getCourseDescription());
     }
 
     @GetMapping

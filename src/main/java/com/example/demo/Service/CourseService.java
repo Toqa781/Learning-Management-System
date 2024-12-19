@@ -2,9 +2,11 @@ package com.example.demo.Service;
 
 import com.example.demo.Model.*;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class CourseService {
     private Map<String, Course> courses = new HashMap<>();
 
