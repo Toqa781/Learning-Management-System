@@ -8,9 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.Model.AuthRequest;
-import com.example.demo.Model.User;
-import com.example.demo.Service.JWTService;
-import com.example.demo.Service.UserService;
+import com.example.demo.Model.Users.User;
+import com.example.demo.Service.Authentication.JWTService;
+import com.example.demo.Service.Authentication.UserService;
 
 
 //Not Finished

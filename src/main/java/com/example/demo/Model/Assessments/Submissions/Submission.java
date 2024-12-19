@@ -1,27 +1,31 @@
-package com.example.demo.Model;
+package com.example.demo.Model.Assessments.Submissions;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
+
+@Setter
+@Getter
 @Entity
 //@Table(name = "submission")
 
 public abstract class Submission {
     @Id
 //    @Column(name = "student_id")
-
     private long studentID;
-//    @Column(name = "id")
-
+    //    @Column(name = "id")
     private long ID;
-//    @Column(name = "grade")
+
+    //    @Column(name = "grade")
     private double grade;
-//    @Column(name = "subDate")
+
+    //    @Column(name = "subDate")
     private Date submissionDate;
-//    @Column(name = "isGraded")
+
+    //    @Column(name = "isGraded")
     private boolean isGraded;
 
     public Submission(long studentID, long ID, Date submissionDate) {
@@ -43,6 +47,7 @@ public abstract class Submission {
     public void setID(long ID) {
         this.ID = ID;
     }
+
     public double getGrade() {
         return grade;
     }

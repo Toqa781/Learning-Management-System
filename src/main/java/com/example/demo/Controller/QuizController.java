@@ -1,9 +1,9 @@
 package com.example.demo.Controller;
 
 import com.example.demo.Model.Course;
-import com.example.demo.Model.Quiz;
+import com.example.demo.Model.Assessments.Quiz;
 import com.example.demo.Service.CourseService;
-import com.example.demo.Service.QuizService;
+import com.example.demo.Service.Assessments.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

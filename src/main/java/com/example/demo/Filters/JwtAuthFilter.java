@@ -10,8 +10,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
-import com.example.demo.Service.JWTService;
-import com.example.demo.Service.UserService;
+import com.example.demo.Service.Authentication.JWTService;
+import com.example.demo.Service.Authentication.UserService;
 
 @Component
 

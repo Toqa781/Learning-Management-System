@@ -1,13 +1,13 @@
-package com.example.demo.Service;
-import com.example.demo.Model.Admin;
-import com.example.demo.Model.Instructor;
-import com.example.demo.Model.Student;
+package com.example.demo.Service.Authentication;
+import com.example.demo.Model.Users.Admin;
+import com.example.demo.Model.Users.Instructor;
+import com.example.demo.Model.Users.Student;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.demo.Model.User;
+import com.example.demo.Model.Users.User;
 import com.example.demo.Repository.UserRepository;
 
 import java.util.Optional;

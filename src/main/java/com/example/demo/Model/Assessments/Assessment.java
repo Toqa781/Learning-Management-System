@@ -1,4 +1,4 @@
-package com.example.demo.Model;
+package com.example.demo.Model.Assessments;
 
 import jakarta.persistence.*;
 
@@ -11,17 +11,20 @@ public abstract class Assessment {
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "assessment_id")
-
     private long id;
-//    @Column(name = "title")
 
+//    @Column(name = "title")
     private String title;
+
 //    @Column(name = "description")
     private String description;
+
 //    @Column(name = "assigned_date")
     private Date assignedDate;
+
 //    @Column(name = "deadline")
     private Date deadline;
+
 //    private Course course;
 
     public Assessment(long id, String title, String description, Date assignedDate, Date deadline,  double grade) {
@@ -34,9 +37,7 @@ public abstract class Assessment {
         this.grade = grade;
     }
 
-    public Assessment() {
-
-    }
+    public Assessment() {}
 
     public long getId() {
         return id;

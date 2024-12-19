@@ -1,15 +1,14 @@
-package com.example.demo.Service;
+package com.example.demo.Service.Assessments;
 
 import com.example.demo.Model.Course;
-import com.example.demo.Model.Question;
-import com.example.demo.Model.Quiz;
-import com.example.demo.Repository.QuestionRepository;
-import com.example.demo.Repository.QuizRepository;
-import com.example.demo.Repository.QuizSubmissionRepository;
+import com.example.demo.Model.Assessments.Questions.Question;
+import com.example.demo.Model.Assessments.Quiz;
+import com.example.demo.Repository.Assesments.Questions.QuestionRepository;
+import com.example.demo.Repository.Assesments.QuizRepository;
+import com.example.demo.Repository.Assesments.Submissions.QuizSubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class QuizService {
 
 
     public Quiz saveQuiz(Quiz quiz,Course course) {
-        quiz.setQuizQuestions(createQuizQuestions(quiz.getNumberOfQuestions(),course.getQuestionBank()));
+        quiz.setQuizQuestions(createQuizQuestions(quiz.getNumberOfQuestions(),course.getQuestionBank().getQuestionList()));
         return quizRepository.save(quiz);
     }
 

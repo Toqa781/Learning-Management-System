@@ -1,9 +1,9 @@
-package com.example.demo.Service;
+package com.example.demo.Service.Authentication;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.example.demo.Model.User;
+import com.example.demo.Model.Users.User;
 
 import java.util.Arrays;
 import java.util.Collection;

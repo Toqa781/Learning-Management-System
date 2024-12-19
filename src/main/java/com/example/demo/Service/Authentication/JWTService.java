@@ -1,4 +1,4 @@
-package com.example.demo.Service;
+package com.example.demo.Service.Authentication;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

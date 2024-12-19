@@ -1,5 +1,6 @@
-package com.example.demo.Model;
+package com.example.demo.Model.Assessments;
 
+import com.example.demo.Model.Assessments.Questions.Question;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -9,15 +10,12 @@ import java.util.List;
 //@Table(name = "quiz")
 public class Quiz extends Assessment {
     @OneToMany
-
     private List<Question> quizQuestions;
-//    @Column(name = "numberOfQs")
 
+    //    @Column(name = "numberOfQs")
     int numberOfQuestions;
 
-    public Quiz() {
-
-    }
+    public Quiz() {}
 
     public Quiz(Long id, String title, String description, Date assignedDate, Date deadline, double grade, int numberOfQuestions) {
         super(id, title, description, assignedDate, deadline, grade);

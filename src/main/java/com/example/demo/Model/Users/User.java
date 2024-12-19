@@ -1,4 +1,4 @@
-package com.example.demo.Model;
+package com.example.demo.Model.Users;
 
 import jakarta.persistence.*;
 
@@ -7,19 +7,18 @@ import jakarta.persistence.*;
 public class User {
     @Id
     @Column(name = "user_id")
-
     private String userId;
+
     @Column(name = "name")
-
     private String name;
+
     @Column(name = "email")
-
     private String email;
+
     @Column(name = "password")
-
     private String password;
-    @Column(name = "role")
 
+    @Column(name = "role")
     private String role;
 
     public User(String role, String password, String email, String name, String userId) {
