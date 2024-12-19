@@ -1,12 +1,28 @@
 package com.example.demo.Model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 import java.util.List;
 
-public class Quiz extends Assessment{
+@Entity
+//@Table(name = "quiz")
+public class Quiz extends Assessment {
+    @OneToMany
+
     private List<Question> quizQuestions;
-    public Quiz(String id, String title, String description, Date assignedDate, Date deadline, Course course, double grade) {
-        super(id, title, description, assignedDate, deadline, course, grade);
+//    @Column(name = "numberOfQs")
+
+    int numberOfQuestions;
+
+    public Quiz() {
+
+    }
+
+    public Quiz(Long id, String title, String description, Date assignedDate, Date deadline, double grade, int numberOfQuestions) {
+        super(id, title, description, assignedDate, deadline, grade);
+        this.numberOfQuestions = numberOfQuestions;
+
     }
 
     public List<Question> getQuizQuestions() {
@@ -15,5 +31,13 @@ public class Quiz extends Assessment{
 
     public void setQuizQuestions(List<Question> quizQuestions) {
         this.quizQuestions = quizQuestions;
+    }
+
+    public int getNumberOfQuestions() {
+        return numberOfQuestions;
+    }
+
+    public void setNumberOfQuestions(int numberOfQuestions) {
+        this.numberOfQuestions = numberOfQuestions;
     }
 }

@@ -1,9 +1,23 @@
 package com.example.demo.Model;
 
+import jakarta.persistence.*;
+
+@Entity
+//@Table(name = "question")
+
 public class Question {
+
+    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long ID;
+//    @Column(name = "question")
+
     private String question;
+//    @Column(name = "answer")
+
     private String correctAnswer;
+//    @Column(name = "mark")
+
     private double questionMark;
 
     public Question(long ID, String question, String correctAnswer, double questionMark) {
@@ -11,6 +25,10 @@ public class Question {
         this.question = question;
         this.correctAnswer = correctAnswer;
         this.questionMark = questionMark;
+    }
+
+    public Question() {
+
     }
 
     public long getID() {
