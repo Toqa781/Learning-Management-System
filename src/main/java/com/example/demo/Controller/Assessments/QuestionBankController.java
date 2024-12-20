@@ -48,35 +48,31 @@ public class QuestionBankController {
         if (questionBank == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question Bank doesn't exist, Create One First");
         }
-        List<Question> castedQs = new ArrayList<>();
         for (Question question : questions) {
-            if (question instanceof MCQ) {
-                MCQ mcq = (MCQ) question;
+            System.out.println("Deserialized Question Type: " + question.getClass().getName());
+
+            if (question instanceof MCQ mcq) {
                 if (mcq.getOptions() == null || mcq.getOptions().isEmpty()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("MCQ should have options.");
                 }
-                castedQs.add(mcq);
-
-            } else if (question instanceof Essay) {
-                Essay essay = (Essay) question;
+//                ((MCQ) question).setCorrectAnswer(((MCQ) question).getCorrectAnswer());
+//                ((MCQ) question).setOptions(((MCQ) question).getOptions());
+            } else if (question instanceof Essay essay) {
                 if (essay.getCorrectAnswer() == null || essay.getCorrectAnswer().isEmpty()) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Essay should have a correct answer.");
                 }
-                castedQs.add(essay);
-
-            } else if (question instanceof TrueOrFalse) {
-                TrueOrFalse trueOrFalse = (TrueOrFalse) question;
+                ((Essay) question).setCorrectAnswer(((Essay) question).getCorrectAnswer());
+            } else if (question instanceof TrueOrFalse trueOrFalse) {
                 if (trueOrFalse.getCorrectAnswer() == null) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("True or False should have a correct answer.");
                 }
-                castedQs.add(trueOrFalse);
-
+//                ((TrueOrFalse) question).setCorrectAnswer(((TrueOrFalse) question).getCorrectAnswer());
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown Question type.");
             }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown Question type");
-
         }
 
-        questionBankService.addQuestionsToBank(questionBank.getQuestionBankId(), castedQs);
+        questionBankService.addQuestionsToBank(questionBank.getQuestionBankId(), questions);
         return ResponseEntity.status(HttpStatus.CREATED).body(questionBank);
     }
 

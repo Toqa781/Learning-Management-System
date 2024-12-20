@@ -1,5 +1,6 @@
 package com.example.demo.Model.Assessments.Questions;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -11,7 +12,7 @@ public class QuestionBank {
     @Id
     private Long questionBankId;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questionList;
 
     private String courseId;
