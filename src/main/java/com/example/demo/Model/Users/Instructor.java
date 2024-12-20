@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity
-@DiscriminatorValue("STUDENT")
+@DiscriminatorValue("INSTRUCTOR")
 public class Instructor extends User {
     //add any specific fields
     public Instructor() {
