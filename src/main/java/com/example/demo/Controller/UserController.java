@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.Service.Authentication.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.demo.Model.AuthRequest;
 import com.example.demo.Model.Users.User;
 import com.example.demo.Service.Authentication.JWTService;
-import com.example.demo.Service.Authentication.UserService;
 
 @RestController
 @RequestMapping("/users")

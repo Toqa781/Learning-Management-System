@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.example.demo.Repository.UserRepository;
-import com.example.demo.Service.Authentication.UserService;
 import com.example.demo.Filters.JwtAuthFilter;
 import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
