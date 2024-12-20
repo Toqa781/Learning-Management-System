@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Inheritance strategy
+@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)  // Discriminator column
 public class User {
     @Id
     @Column(name = "user_id")
@@ -18,8 +20,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
+
     @Column(name = "role")
     private String role;
+
 
     public User(String role, String password, String email, String name, String userId) {
         this.role = role;
@@ -44,7 +48,7 @@ public class User {
         return name;
     }
 
-    public void setUserName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

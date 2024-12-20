@@ -27,6 +27,23 @@ public class QuestionBankService {
     public void addQuestionsToBank(Long questionBankId , List<Question> newQuestions) {
         QuestionBank questionBank=getQuestionBankById(questionBankId);
         List<Question> questions = questionBank.getQuestionList();
+
+
+//        for (Question newQuestion : newQuestions) {
+//            boolean exists = false;
+//
+//            for (Question existingQuestion : questions) {
+//                if (existingQuestion.getQuestionId()==(newQuestion.getQuestionId())) {
+//                    exists = true;
+//                    break;
+//                }
+//            }
+//
+//            if (exists) {
+//                System.out.println("Question with ID " + newQuestion.getQuestionId() + " already exists. Not adding.");
+//                newQuestions.remove(newQuestion);
+//            }
+//        }
         questions.addAll(newQuestions);
         questionBank.setQuestionList(questions);
         questionBankRepository.save(questionBank);

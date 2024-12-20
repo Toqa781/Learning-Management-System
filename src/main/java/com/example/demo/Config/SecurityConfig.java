@@ -1,4 +1,5 @@
 package com.example.demo.Config;
+import com.example.demo.Service.Authentication.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,13 +15,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.example.demo.Repository.UserRepository;
-import com.example.demo.Service.Authentication.UserService;
 import com.example.demo.Filters.JwtAuthFilter;
 import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig {
+public class SecurityConfig   {
     private final JwtAuthFilter authFilter;
     public SecurityConfig(JwtAuthFilter authFilter) {
         this.authFilter = authFilter;
@@ -35,9 +35,10 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/users/generateToken", "/users/register","/users/login").permitAll()
-                        .requestMatchers("/auth/hello").authenticated()
+                        //.anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults()).csrf((csrf) -> csrf.disable())
+                .httpBasic(withDefaults())
+                .csrf((csrf) -> csrf.disable())
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)

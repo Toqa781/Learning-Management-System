@@ -17,6 +17,7 @@ public class QuizController {
     @Autowired
     private QuizService quizService;
 
+    @Autowired
     private CourseService courseService;
 
     @PostMapping("/createQuiz")

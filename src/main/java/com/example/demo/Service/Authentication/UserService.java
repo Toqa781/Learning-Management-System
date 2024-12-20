@@ -27,7 +27,6 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
         Optional<User> userDetail = repository.findById(id);
-        // Converting userDetail to UserDetails
         return userDetail.map(UserInfoDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + id));
     }
@@ -37,16 +36,20 @@ public class UserService implements UserDetailsService {
             throw new IllegalArgumentException("User ID already exists");
         }
 
-        if (user instanceof Student) {
-            user.setRole("STUDENT");
-        } else if (user instanceof Instructor) {
-            user.setRole("INSTRUCTOR");
-        } else if (user instanceof Admin) {
-            user.setRole("ADMIN");
-        }
+        User newuser;
 
-        user.setPassword(encoder.encode(user.getPassword()));
-        repository.save(user);
+        if ("STUDENT".equals(user.getRole())) {
+            newuser = new Student();
+        } else if ("INSTRUCTOR".equals(user.getRole())) {
+            newuser = new Instructor();
+        } else if ("ADMIN".equals(user.getRole())) {
+            newuser = new Admin();
+        } else {
+            newuser = new User();
+        }
+        newuser.setUserId(user.getUserId());
+        newuser.setPassword(encoder.encode(user.getPassword()));
+        repository.save(newuser);
     }
 
     public boolean login(String userId, String rawPassword) {
@@ -59,12 +62,32 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public void manageProfile() {
+    public void manageProfile(User user,String newEmail ,String newName) {
+        boolean userExist = repository.existsById(user.getUserId());
 
+        if (userExist) {
+
+            user.setEmail(newEmail);
+            user.setName(newName);
+            repository.save(user);
+        } else {
+            throw new RuntimeException("User not found");
+        }
     }
 
-    public void CreateUser(Admin admin) {
+    public User createUser(Admin admin, User newUser) {
+        if (!repository.existsById(admin.getUserId())) {
+            throw new IllegalArgumentException("Admin doesn't exist.");
+        }
 
+        if (repository.existsById(newUser.getUserId())) {
+            throw new IllegalArgumentException("User ID already exists.");
+        }
+        newUser.setUserId(newUser.getUserId());
+        newUser.setPassword(encoder.encode(newUser.getPassword()));
+        repository.save(newUser);
+
+        return newUser;
     }
 
 
