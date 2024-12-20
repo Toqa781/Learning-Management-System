@@ -12,6 +12,7 @@ import com.example.demo.Model.AuthRequest;
 import com.example.demo.Model.Users.User;
 import com.example.demo.Service.Authentication.JWTService;
 
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -33,9 +34,9 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-        Authentication authentication = authenticationManager.authenticate
-                (new UsernamePasswordAuthenticationToken(authRequest.getUserId(), authRequest.getPassword()));
+    public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserId(), authRequest.getPassword()));
+
         if (authentication.isAuthenticated()) {
             String token = jwtService.generateToken(authRequest.getUserId());
             return ResponseEntity.ok(token);
@@ -54,6 +55,10 @@ public class UserController {
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello World!";
     }
 
 

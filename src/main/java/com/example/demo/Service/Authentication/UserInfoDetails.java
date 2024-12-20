@@ -7,25 +7,25 @@ import com.example.demo.Model.Users.User;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserInfoDetails implements UserDetails {
-    private String name;
+    private User user;
+    private String id;
     private String password;
-    private List<GrantedAuthority> authorities;
+    private GrantedAuthority  role;
 
     public UserInfoDetails(User userInfo) {
-        name = userInfo.getName();
+        id = userInfo.getUserId();
         password = userInfo.getPassword();
-        authorities = Arrays.stream(userInfo.getRole().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        role = new SimpleGrantedAuthority(userInfo.getRole());
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return Collections.singleton(role);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UserInfoDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name;
+        return id;
     }
 
     @Override

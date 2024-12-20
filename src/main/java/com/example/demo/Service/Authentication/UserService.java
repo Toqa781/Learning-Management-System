@@ -2,6 +2,8 @@ package com.example.demo.Service.Authentication;
 import com.example.demo.Model.Users.Admin;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Model.Users.User;
 import com.example.demo.Repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,9 +29,10 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        Optional<User> userDetail = repository.findById(id);
+        Optional<User> userDetail = (repository.findById(id));
         return userDetail.map(UserInfoDetails::new)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found " + id));
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found " + id));
+
     }
 
     public void register(User user) {
@@ -49,18 +53,23 @@ public class UserService implements UserDetailsService {
         }
         newuser.setUserId(user.getUserId());
         newuser.setPassword(encoder.encode(user.getPassword()));
+        newuser.setRole(user.getRole());
+        newuser.setEmail(user.getEmail());
+        newuser.setName(user.getName());
+
         repository.save(newuser);
+
     }
 
-    public boolean login(String userId, String rawPassword) {
-        Optional<User> userOptional = repository.findById(userId);
-
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            return encoder.matches(rawPassword, user.getPassword());
-        }
-        return false;
-    }
+//    public boolean login(String userId, String rawPassword) {
+//        Optional<User> userOptional = repository.findById(userId);
+//
+//        if (userOptional.isPresent()) {
+//            User user = userOptional.get();
+//            return encoder.matches(rawPassword, user.getPassword());
+//        }
+//        return false;
+//    }
 
     public void manageProfile(User user,String newEmail ,String newName) {
         boolean userExist = repository.existsById(user.getUserId());
@@ -74,7 +83,7 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException("User not found");
         }
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     public User createUser(Admin admin, User newUser) {
         if (!repository.existsById(admin.getUserId())) {
             throw new IllegalArgumentException("Admin doesn't exist.");
