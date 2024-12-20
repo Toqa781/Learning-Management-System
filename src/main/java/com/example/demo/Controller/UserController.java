@@ -27,11 +27,6 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody User userInfo) {
-        // Assign default role if none is provided
-
-        if (userInfo.getRole() == null || userInfo.getRole().isEmpty()) {
-            userInfo.setRole("STUDENT");
-        }
         service.register(userInfo);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

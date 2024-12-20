@@ -8,7 +8,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@DiscriminatorValue("STUDENT")
 public class Student extends User {
+
+    //add any specific fields
+    public Student() {
+        super();
+    }
 
     // Correctly setting the parameter to the field
     @Setter
