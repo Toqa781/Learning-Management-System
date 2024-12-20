@@ -1,4 +1,5 @@
 package com.example.demo.Config;
+import com.example.demo.Service.Authentication.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
