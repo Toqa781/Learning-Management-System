@@ -12,9 +12,6 @@ public class AuthRequest {
         this.password = password;
     }
 
-    public String getUserId() {
-        return userId;
-    }
 
     public void setUserId(String username) {
         this.userId = username;
@@ -26,5 +23,9 @@ public class AuthRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 }
