@@ -28,11 +28,9 @@ public class Student extends User {
     }
 
     public void attendLesson(String lessonId) {
-        if (!attendedLessons.contains(lessonId)) {
-            attendedLessons.add(lessonId);
-            System.out.println("Lesson " + lessonId + " marked as attended.");
-        } else {
-            System.out.println("Lesson " + lessonId + " is already marked as attended.");
-        }
+
+    }
+
+    public void setEnrolledCourse(Course course) {
     }
 }
