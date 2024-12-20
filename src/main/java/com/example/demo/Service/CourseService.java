@@ -1,6 +1,7 @@
 package com.example.demo.Service;
 
 import com.example.demo.Model.*;
+import com.example.demo.Model.Assessments.Assignment;
 import com.example.demo.Model.Assessments.Questions.QuestionBank;
 import com.example.demo.Model.Users.Admin;
 import com.example.demo.Model.Users.Instructor;
@@ -66,10 +67,16 @@ public class CourseService {
         }
     }
 
-    public void assignQuestionBankToCourse(String courseId , QuestionBank questionBank){
-        Course course = getCourseById(courseId);
-        course.setQuestionBank(questionBank);
-        courseRepository.save(course);
-    }
+//    public void assignQuestionBankToCourse(String courseId , QuestionBank questionBank){
+//        Course course = getCourseById(courseId);
+//        course.setQuestionBank(questionBank);
+//        courseRepository.save(course);
+//    }
+//
+//    public void addAssignmentToCourse(String courseId , Assignment assignment){
+//        Course course = getCourseById(courseId);
+//        course.getAssignments().add(assignment);
+//        courseRepository.save(course);
+//    }
 }
 

@@ -1,7 +1,6 @@
-package com.example.demo.Controller;
+package com.example.demo.Controller.Assessments;
 
 import com.example.demo.Model.Assessments.Questions.*;
-import com.example.demo.Model.Assessments.Quiz;
 import com.example.demo.Model.Course;
 import com.example.demo.Service.Assessments.QuestionBankService;
 import com.example.demo.Service.CourseService;
@@ -25,15 +24,15 @@ public class QuestionBankController {
     @PostMapping("/createQuestionBank")
     public ResponseEntity<?> createQuestionBank(@PathVariable String courseId, @RequestBody QuestionBank questionBank) {
         Course course = courseService.getCourseById(courseId);
-        if(course == null){
+        if (course == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course doesn't exist.");
         }
-        if (course.getQuestionBank() != null) {
+        if (questionBankService.getQuestionBankByCourseId(courseId) != null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course already has a QuestionBank.");
         }
+
+        questionBank.setCourseId(courseId);
         questionBankService.createQuestionBank(questionBank);
-        course.setQuestionBank(questionBank);
-        courseService.assignQuestionBankToCourse(courseId, questionBank);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(questionBank);
     }
@@ -41,15 +40,15 @@ public class QuestionBankController {
     @PostMapping("/createQuestion")
     public ResponseEntity<?> createQuestions(@PathVariable String courseId, @RequestBody List<Question> questions) {
         Course course = courseService.getCourseById(courseId);
-        if(course == null){
+        if (course == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course doesn't exist.");
         }
-        QuestionBank questionBank = course.getQuestionBank();
+        QuestionBank questionBank = questionBankService.getQuestionBankByCourseId(courseId);
 //       QuestionBank questionBank = questionBankService.getQuestionBankById(question.getQuestionBankId());
         if (questionBank == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question Bank doesn't exist, Create One First");
         }
-        List<Question>castedQs = new ArrayList<>();
+        List<Question> castedQs = new ArrayList<>();
         for (Question question : questions) {
             if (question instanceof MCQ) {
                 MCQ mcq = (MCQ) question;
@@ -65,7 +64,7 @@ public class QuestionBankController {
                 }
                 castedQs.add(essay);
 
-            }else if(question instanceof TrueOrFalse){
+            } else if (question instanceof TrueOrFalse) {
                 TrueOrFalse trueOrFalse = (TrueOrFalse) question;
                 if (trueOrFalse.getCorrectAnswer() == null) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("True or False should have a correct answer.");
@@ -77,7 +76,7 @@ public class QuestionBankController {
 
         }
 
-        questionBankService.addQuestionsToBank(questionBank.getQuestionBankId(),castedQs);
+        questionBankService.addQuestionsToBank(questionBank.getQuestionBankId(), castedQs);
         return ResponseEntity.status(HttpStatus.CREATED).body(questionBank);
     }
 

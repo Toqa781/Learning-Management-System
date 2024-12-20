@@ -1,5 +1,6 @@
 package com.example.demo.Model;
 
+import com.example.demo.Model.Assessments.Assignment;
 import com.example.demo.Model.Assessments.Questions.QuestionBank;
 import com.example.demo.Model.Users.Student;
 import jakarta.persistence.*;
@@ -24,14 +25,11 @@ public class Course {
     String courseDescription;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-
     private List<Lesson> lessons = new ArrayList<>();
 
     @OneToMany(mappedBy = "enrolledCourse", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Student> enrolledStudents = new ArrayList<>();
 
-    @OneToOne
-    private QuestionBank questionBank;
 
     public Course() {}
 
@@ -87,12 +85,7 @@ public class Course {
         this.lessons = lessons;
     }
 
-    public QuestionBank getQuestionBank() {
-        return questionBank;
-    }
 
-    public void setQuestionBank(QuestionBank questionBank) {
-        this.questionBank = questionBank;
-    }
+
 }
 

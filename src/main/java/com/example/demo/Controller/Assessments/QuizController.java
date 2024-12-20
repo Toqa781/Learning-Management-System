@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.Controller.Assessments;
 
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Quiz;

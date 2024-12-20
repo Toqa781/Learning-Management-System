@@ -17,9 +17,8 @@ public class QuestionBank {
     private String courseId;
 
 
-    public QuestionBank(Long questionBankId, String courseId) {
+    public QuestionBank(Long questionBankId) {
         this.questionBankId = questionBankId;
-        this.courseId = courseId;
     }
 
     public QuestionBank() {

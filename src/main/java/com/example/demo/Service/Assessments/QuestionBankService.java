@@ -19,6 +19,11 @@ public class QuestionBankService {
         this.questionBankRepository = questionBankRepository;
     }
 
+    public QuestionBank getQuestionBankByCourseId(String courseId){
+        return questionBankRepository.findByCourseId(courseId);
+    }
+
+
     public void addQuestionsToBank(Long questionBankId , List<Question> newQuestions) {
         QuestionBank questionBank=getQuestionBankById(questionBankId);
         List<Question> questions = questionBank.getQuestionList();

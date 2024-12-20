@@ -1,8 +1,10 @@
 package com.example.demo.Model.Assessments;
 
+import com.example.demo.Model.Assessments.Questions.Question;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 //@Table(name = "assessment")
@@ -19,22 +21,23 @@ public abstract class Assessment {
 //    @Column(name = "description")
     private String description;
 
+    private double assessmentGrade;
+
 //    @Column(name = "assigned_date")
     private Date assignedDate;
 
 //    @Column(name = "deadline")
     private Date deadline;
 
-//    private Course course;
+    private String courseId;
 
-    public Assessment(long id, String title, String description, Date assignedDate, Date deadline,  double grade) {
+    public Assessment(long id, String title, String description, Date assignedDate, Date deadline,  double assessmentGrade) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.assignedDate = assignedDate;
         this.deadline = deadline;
-//        this.course = course;
-        this.grade = grade;
+        this.assessmentGrade = assessmentGrade;
     }
 
     public Assessment() {}
@@ -75,29 +78,24 @@ public abstract class Assessment {
         this.deadline = deadline;
     }
 
-//    public Course getCourse() {
-//        return course;
-//    }
-//
-//    public void setCourse(Course course) {
-//        this.course = course;
-//    }
-
-    public double getGrade() {
-        return grade;
+    public double getAssessmentGrade() {
+        return assessmentGrade;
     }
 
-    public void setGrade(double grade) {
-        this.grade = grade;
+    public void setAssessmentGrade(double grade) {
+        this.assessmentGrade = grade;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    double grade;
 
+    public String getCourseId() {
+        return courseId;
+    }
 
-
-
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
 }
