@@ -31,8 +31,7 @@ public class CourseService {
     }
 
     public Course getCourseById(String courseId) {
-        return  courseRepository.findById(courseId)
-                .orElseThrow(() -> new IllegalArgumentException("Course not Found"));
+        return  courseRepository.findById(courseId).orElse(null);
     }
 
     public void addLessonToCourse(String courseId, Lesson lesson) {
@@ -69,7 +68,6 @@ public class CourseService {
 
     public void assignQuestionBankToCourse(String courseId , QuestionBank questionBank){
         Course course = getCourseById(courseId);
-
         course.setQuestionBank(questionBank);
         courseRepository.save(course);
     }

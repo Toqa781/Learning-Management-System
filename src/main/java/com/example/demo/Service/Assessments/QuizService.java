@@ -27,7 +27,7 @@ public class QuizService {
         return quizRepository.save(quiz);
     }
 
-    public List<Question> createQuizQuestions(int numberOfQuestions, List<Question> questions) {
+    private List<Question> createQuizQuestions(int numberOfQuestions, List<Question> questions) {
         Collections.shuffle(questions);
         int size = min(numberOfQuestions, questions.size());
         return questions.subList(0, size);
