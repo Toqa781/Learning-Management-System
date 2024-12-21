@@ -20,7 +20,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig   {
+public class SecurityConfig  {
     private final JwtAuthFilter authFilter;
     public SecurityConfig(JwtAuthFilter authFilter) {
         this.authFilter = authFilter;
@@ -32,10 +32,12 @@ public class SecurityConfig   {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
+
         return http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/users/generateToken", "/users/register","/users/login").permitAll()
-                        //.anyRequest().authenticated()
+                        .requestMatchers( "/users/register","/users/login").permitAll()
+
+                        .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults())
                 .csrf((csrf) -> csrf.disable())

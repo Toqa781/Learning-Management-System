@@ -25,6 +25,7 @@ public class AdminController {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String adminId = authentication.getName();
+
             Admin admin = (Admin) userService.loadUserByUsername(adminId);
 
             if (!"ADMIN".equals(admin.getRole())) {

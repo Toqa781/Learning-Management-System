@@ -37,6 +37,7 @@ public class CourseService {
 
     public void addLessonToCourse(String courseId, Lesson lesson) {
         Course course = getCourseById(courseId); // Ensures course exists
+        lesson.setOtp(UUID.randomUUID().toString());
         course.addLesson(lesson);
         courseRepository.save(course);
     }
@@ -49,6 +50,7 @@ public class CourseService {
 
     public List<Student> getEnrolledStudents(String courseId) {
         Course course = getCourseById(courseId); // Ensures course exists
+        course.getEnrolledStudents().size();
         return course.getEnrolledStudents();
     }
 
