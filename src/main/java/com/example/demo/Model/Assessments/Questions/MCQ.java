@@ -24,6 +24,7 @@ public class MCQ extends Question{
 
     }
 
+
     public List<String> getOptions() {
         return options;
     }

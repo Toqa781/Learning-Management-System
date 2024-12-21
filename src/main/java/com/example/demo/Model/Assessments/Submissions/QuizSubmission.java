@@ -1,37 +1,67 @@
 package com.example.demo.Model.Assessments.Submissions;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Entity
-//@Table(name = "quizSubmission")
-
+@Getter
+@Setter
 public class QuizSubmission extends Submission {
-    //    @OneToMany(mappedBy = "submission", cascade= CascadeType.ALL)
-    @ElementCollection
-//    @CollectionTable(name = "quiz_submission_details", joinColumns = @JoinColumn(name = "submission_id"))
-//    @MapKeyColumn(name = "student_id")
-//    @Column(name = "submission_text")
 
-    Map<Long, String> studentSubmission = new HashMap<>();
+    @ElementCollection
+    List<Answer> studentAnswers;
 
     public QuizSubmission(long studentID, long ID, Date submissionDate) {
         super(studentID, ID, submissionDate);
     }
 
     public QuizSubmission() {
-
     }
 
-
-    public Map<Long, String> getStudentSubmission() {
-        return studentSubmission;
+    public void setStudentSubmission (List<Answer> studentSubmission) {
+        this.studentAnswers = studentSubmission;
     }
 
-    public void setStudentSubmission(Map<Long, String> studentSubmission) {
-        this.studentSubmission = studentSubmission;
+    @Embeddable
+    public static class Answer {
+        private String stringAnswer;
+        private Boolean booleanAnswer;
+
+        public Answer() {
+        }
+        public Answer(String stringAnswer) {
+            this.stringAnswer = stringAnswer;
+        }
+        public Answer(Boolean booleanAnswer) {
+            this.booleanAnswer = booleanAnswer;
+        }
+
+        public String getStringAnswer() {
+            return stringAnswer;
+        }
+
+        public void setStringAnswer(String stringAnswer) {
+            this.stringAnswer = stringAnswer;
+        }
+
+        public Boolean getBooleanAnswer() {
+            return booleanAnswer;
+        }
+
+        public void setBooleanAnswer(Boolean booleanAnswer) {
+            this.booleanAnswer = booleanAnswer;
+        }
+        public boolean isString() {
+            return stringAnswer != null;
+        }
+        public boolean isBoolean() {
+            return booleanAnswer != null;
+        }
     }
 }

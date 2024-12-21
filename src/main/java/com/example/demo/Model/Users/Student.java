@@ -1,6 +1,7 @@
 package com.example.demo.Model.Users;
 
 import com.example.demo.Model.Course;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -20,6 +21,7 @@ public class Student extends User {
     @Setter
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @JsonBackReference
     private Course enrolledCourse;
 
     @ElementCollection

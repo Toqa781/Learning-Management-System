@@ -19,7 +19,6 @@ import lombok.Setter;
         @JsonSubTypes.Type(value = MCQ.class, name = "mcq"),
         @JsonSubTypes.Type(value = TrueOrFalse.class, name = "trueorfalse")
 })public class Question {
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private long questionId;
 

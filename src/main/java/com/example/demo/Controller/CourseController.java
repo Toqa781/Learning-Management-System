@@ -1,7 +1,9 @@
 package com.example.demo.Controller;
 import com.example.demo.Model.*;
+import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Service.*;
+import com.example.demo.Service.Authentication.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
