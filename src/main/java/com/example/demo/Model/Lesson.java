@@ -35,12 +35,6 @@ public class Lesson {
         this.course = course;
     }
 
-    public void generateOtp(Instructor instructor) {
-        if (instructor != null) {
-            this.OTP = UUID.randomUUID().toString();
-        }
-    }
-
     public boolean validateOtp(String otp) {
         return this.OTP.equals(otp);
     }
@@ -55,6 +49,10 @@ public class Lesson {
 
     public String getOTP() {
         return OTP;
+    }
+
+    public void setOtp(String otp) {
+        this.OTP = otp;
     }
 }
 
