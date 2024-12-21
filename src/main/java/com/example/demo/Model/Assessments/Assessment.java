@@ -3,6 +3,7 @@ package com.example.demo.Model.Assessments;
 import com.example.demo.Model.Assessments.Questions.Question;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -24,20 +25,21 @@ public abstract class Assessment {
     private double assessmentGrade;
 
 //    @Column(name = "assigned_date")
-    private Date assignedDate;
+    private LocalDateTime assignedDate;
 
 //    @Column(name = "deadline")
     private Date deadline;
 
     private String courseId;
 
-    public Assessment(long id, String title, String description, Date assignedDate, Date deadline,  double assessmentGrade) {
+    public Assessment(long id, String title, String description, Date deadline, double assessmentGrade) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.assignedDate = assignedDate;
         this.deadline = deadline;
         this.assessmentGrade = assessmentGrade;
+
+        this.assignedDate=LocalDateTime.now();
     }
 
     public Assessment() {}
@@ -62,11 +64,11 @@ public abstract class Assessment {
         this.description = description;
     }
 
-    public Date getAssignedDate() {
+    public LocalDateTime getAssignedDate() {
         return assignedDate;
     }
 
-    public void setAssignedDate(Date assignedDate) {
+    public void setAssignedDate(LocalDateTime assignedDate) {
         this.assignedDate = assignedDate;
     }
 

@@ -1,42 +1,52 @@
 package com.example.demo.Model.Assessments;
 
-import com.example.demo.Model.Assessments.Questions.Question;
-import com.example.demo.Model.Assessments.Submissions.Submission;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.http.MediaType;
 
 import java.util.Date;
-import java.util.List;
 
+@Setter
+@Getter
 @Entity
 
 public class Assignment extends Assessment {
 
-    @OneToMany
-    private List<Submission>submissionList;
+    private String fileName;
+    @Lob
+    @Column(name = "file_content", columnDefinition = "BLOB")
+    private byte[] fileContent;
 
-    @OneToMany
-    private List<Question> assignmentQuestions;
+    private String fileMediaType;
 
-    public Assignment(long id, String title, String description, Date assignedDate, Date deadline, String courseId, double grade , List<Question> assignmentQuestions) {
-        super(id, title, description, assignedDate, deadline, grade , courseId);
-        this.assignmentQuestions=assignmentQuestions;
+    public Assignment(long id, String title, String description, Date deadline, double grade) {
+        super(id, title, description, deadline, grade);
     }
 
     public Assignment(){}
 
-    public List<Submission> getSubmissionList() {
-        return submissionList;
+    public byte[] getFileContent() {
+        return fileContent;
     }
 
-    public void setSubmissionList(List<Submission> submissionList) {
-        this.submissionList = submissionList;
+    public void setFileContent(byte[] fileContent) {
+        this.fileContent = fileContent;
     }
 
-    public List<Question> getAssignmentQuestions() {
-        return assignmentQuestions;
+    public String getFileName() {
+        return fileName;
     }
 
-    public void setAssignmentQuestions(List<Question> assignmentQuestions) {
-        this.assignmentQuestions = assignmentQuestions;
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileMediaType() {
+        return fileMediaType;
+    }
+
+    public void setFileMediaType(String fileMediaType) {
+        this.fileMediaType = fileMediaType;
     }
 }
