@@ -10,6 +10,7 @@ import com.example.demo.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,6 +37,7 @@ public class AssignmentSubmissionController {
     private AssignmentSubmissionService assignmentSubmissionService;
 
 
+    @PreAuthorize("hasAuthority('STUDENT')")
     @PostMapping("/{assessmentId}/submit")
     public ResponseEntity<?> submitAssignment(@PathVariable String courseId, @PathVariable Long assessmentId, @RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String tokenHeader) {
 
@@ -84,6 +86,7 @@ public class AssignmentSubmissionController {
         }
     }
 
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @GetMapping("/{assessmentId}/downloadStudentsSubmissions")
     public ResponseEntity<?> downloadStudentsAnswers(@PathVariable String courseId, @PathVariable Long assessmentId) {
 

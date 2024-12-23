@@ -12,7 +12,9 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
+//@RequestMapping("/{userId}/courses")
 @RequestMapping("/courses")
+
 public class CourseController {
     private final CourseService courseService;
 
@@ -21,7 +23,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     public void createCourse(@RequestBody Course course) {
         String instructorId = SecurityContextHolder.getContext().getAuthentication().getName();
