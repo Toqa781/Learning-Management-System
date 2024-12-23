@@ -44,7 +44,7 @@ public class AssignmentSubmissionController {
         String token = tokenHeader.startsWith("Bearer ") ? tokenHeader.substring(7) : tokenHeader;
         String studentId;
         try {
-            studentId = jwtService.extractId(token, "studentId");
+            studentId = jwtService.extractUsername(token);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token.");
         }
