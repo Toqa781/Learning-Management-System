@@ -7,6 +7,7 @@ import com.example.demo.Model.Users.Admin;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Repository.CourseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +17,12 @@ import java.util.*;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final NotificationsService
+    notificationsService;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, NotificationsService notificationsService) {
         this.courseRepository = courseRepository;
+        this.notificationsService = notificationsService;
     }
 
     // private final Map<String, Course> courses = new HashMap<>();
@@ -53,6 +57,9 @@ public class CourseService {
         Course course = getCourseById(courseId); // Ensures course exists
         course.enrollStudent(student);
         courseRepository.save(course);
+        // Notify the instructor
+        String message = "Student " + student.getUserId() + " has enrolled in your course: " + course.getCourseName();
+        notificationsService.createNotification(course.getCreator(), message, "student_enrollment",course);
     }
 
     @Transactional

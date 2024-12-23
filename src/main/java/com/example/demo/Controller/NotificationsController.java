@@ -18,24 +18,24 @@ public class NotificationsController {
     private NotificationsService notificationService;
 
     // POST: Add a new notification for a specific user
-    @PostMapping("/add")
-    public ResponseEntity<Notifications> addNotification(
-            @RequestParam String userId,
-            @RequestParam String message,
-            @RequestParam String userType) {
-        Notifications createdNotification = notificationService.createNotification(userId, message, userType);
-        return ResponseEntity.ok(createdNotification);
-    }
+//    @PostMapping("/add")
+//    public ResponseEntity<Notifications> addNotification(
+//            @RequestParam String userId,
+//            @RequestParam String message,
+//            @RequestParam String userType) {
+//        Notifications createdNotification = notificationService.createNotification(userId, message, userType);
+//        return ResponseEntity.ok(createdNotification);
+//    }
 
-    // POST: Send a notification to all students
-    @PostMapping("/students")
-    public ResponseEntity<List<Notifications>> sendNotificationToAllStudents(@RequestBody NotificationAllRequest request) {
-        List<Notifications> notifications = notificationService.sendNotificationToAllStudents(
-                request.getContent(),
-                request.getStudentIds()
-        );
-        return ResponseEntity.ok(notifications);
-    }
+//    // POST: Send a notification to all students
+//    @PostMapping("/students")
+//    public ResponseEntity<List<Notifications>> sendNotificationToAllStudents(@RequestBody NotificationAllRequest request) {
+//        List<Notifications> notifications = notificationService.sendNotificationToAllStudents(
+//                request.getContent(),
+//                request.getStudentIds()
+//        );
+//        return ResponseEntity.ok(notifications);
+//    }
 
     // GET: Retrieve notifications for a specific user (all or unread only)
     @GetMapping("/{userId}")
