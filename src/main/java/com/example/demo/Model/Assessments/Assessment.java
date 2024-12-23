@@ -19,19 +19,19 @@ public abstract class Assessment {
 //    @Column(name = "assessment_id")
     private long id;
 
-//    @Column(name = "title")
+    //    @Column(name = "title")
     private String title;
 
-//    @Column(name = "description")
+    //    @Column(name = "description")
     private String description;
 
     private double assessmentGrade;
 
-//    @Column(name = "assigned_date")
+    //    @Column(name = "assigned_date")
     private LocalDateTime assignedDate;
 
-//    @Column(name = "deadline")
-private LocalDateTime deadline;
+    //    @Column(name = "deadline")
+    private LocalDateTime deadline;
 
     private String courseId;
 
@@ -41,10 +41,11 @@ private LocalDateTime deadline;
         this.description = description;
         this.deadline = deadline;
         this.assessmentGrade = assessmentGrade;
-        this.assignedDate=LocalDateTime.now();
+        this.assignedDate = LocalDateTime.now();
     }
 
-    public Assessment() {}
+    public Assessment() {
+    }
 
 
     public long getId() {
