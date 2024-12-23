@@ -1,4 +1,5 @@
 package com.example.demo.Config;
+import com.example.demo.Service.Authentication.JWTService;
 import com.example.demo.Service.Authentication.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +16,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Service.Authentication.UserService;
 import com.example.demo.Filters.JwtAuthFilter;
+
 import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
     private final JwtAuthFilter authFilter;
+//    private final AuthenticationManager authenticationManager;
+//    private final JWTService jwtService;
+
     public SecurityConfig(JwtAuthFilter authFilter) {
         this.authFilter = authFilter;
 
@@ -31,11 +38,14 @@ public class SecurityConfig  {
     public UserDetailsService userDetailsService(UserRepository repository, PasswordEncoder passwordEncoder) {
         return new UserService(repository, passwordEncoder);
     }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
 
         return http
                 .authorizeHttpRequests((auth) -> auth
+//                        .requestMatchers("/users/generateToken", "/users/register","/users/login","/courses/create","/courses/{courseId}/questionBank/createQuestionBank","/courses/{courseId}/questionBank/createQuestion","/courses/{courseId}/quiz/createQuiz").permitAll()
+                        //.anyRequest().authenticated()
                         .requestMatchers( "/users/register","/users/login").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -46,6 +56,7 @@ public class SecurityConfig  {
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

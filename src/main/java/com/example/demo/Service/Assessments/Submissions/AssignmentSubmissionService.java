@@ -24,13 +24,18 @@ public class AssignmentSubmissionService {
    }
 
     public boolean isStudentPrevSubmit(String studentId ,Long assessmentId){
-        List<AssignmentSubmission> studentSubmissions=getAllStudentsAssignmentSubmissions(assessmentId);
-        for(AssignmentSubmission assignmentSubmission :studentSubmissions){
-            if(Objects.equals(studentId, assignmentSubmission.getStudentID())){
-                return true;
-            }
-        }
+        AssignmentSubmission assignmentSubmission = getStudentAssignmentSubmission(studentId,assessmentId);
+        if(assignmentSubmission != null){ return true;}
         return false;
     }
 
+    public AssignmentSubmission getStudentAssignmentSubmission(String studentId ,Long assessmentId){
+        List<AssignmentSubmission> studentSubmissions=getAllStudentsAssignmentSubmissions(assessmentId);
+        for(AssignmentSubmission assignmentSubmission :studentSubmissions){
+            if(Objects.equals(studentId, assignmentSubmission.getStudentID())){
+                return assignmentSubmission;
+            }
+        }
+        return null;
+    }
 }
