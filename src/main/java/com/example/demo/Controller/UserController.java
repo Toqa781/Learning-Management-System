@@ -17,33 +17,41 @@ import com.example.demo.Service.Authentication.JWTService;
 @RequestMapping("/users")
 public class UserController {
     private final UserService service;
-    private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
-    UserController(UserService service, JWTService jwtService, AuthenticationManager authenticationManager) {
+
+    UserController(UserService service, AuthenticationManager authenticationManager, JWTService jwtService) {
         this.service = service;
-        this.jwtService = jwtService;
+
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody User userInfo) {
-        service.register(userInfo);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<String> register(@RequestBody User userInfo) {
+        try {
+            service.register(userInfo);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        catch (RuntimeException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUserId(), authRequest.getPassword()));
-
         if (authentication.isAuthenticated()) {
             String token = jwtService.generateToken(authRequest.getUserId());
             return ResponseEntity.ok(token);
-        } else {
+        }
+         else{
             throw new UsernameNotFoundException("Invalid user request!");
         }
     }
+
+
 
     @PutMapping("/profile")
     public ResponseEntity<String> updateProfile(@RequestBody User user,
@@ -56,6 +64,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @GetMapping("/hello")
     public String hello() {
         return "Hello World!";
