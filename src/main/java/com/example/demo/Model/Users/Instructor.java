@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 @Entity
 @DiscriminatorValue("INSTRUCTOR")
 public class Instructor extends User {
-    //add any specific fields
+
     public Instructor() {
         super();
     }

@@ -23,14 +23,20 @@ public class CourseService {
 
     // private final Map<String, Course> courses = new HashMap<>();
 
-    public void createCourse(String courseId, String courseName, String courseDescription) {
-        Course course = new Course(courseId, courseName, courseDescription);
+    public void createCourse(String courseId, String courseName, String courseDescription, Instructor creator) {
+        Course course = new Course(courseId, courseName, courseDescription, creator);
         courseRepository.save(course);
     }
 
     public List<Course> getAllCourses() {
-        return new ArrayList<>(courseRepository.findAll());
+        return courseRepository.findAll();
     }
+
+    public List<Course> getCoursesByInstructor(String instructorId) {
+        return courseRepository.findByCreator_UserId(instructorId);
+    }
+
+
 
     public Course getCourseById(String courseId) {
         return  courseRepository.findById(courseId).orElse(null);
@@ -56,6 +62,7 @@ public class CourseService {
         return course.getEnrolledStudents();
     }
 
+    @Transactional
     public void attendLesson(String courseId, Student student, String lessonId, String otp) {
         Course course = getCourseById(courseId); // Ensures course exists
         Lesson lesson = course.getLessons().stream()
@@ -65,6 +72,10 @@ public class CourseService {
 
         if (lesson.validateOtp(otp)) {
             student.attendLesson(lessonId);
+            course.getEnrolledStudents().stream()
+                    .filter(enrolledStudent -> enrolledStudent.getUserId().equals(student.getUserId()))
+                    .findFirst()
+                    .ifPresent(enrolledStudent -> enrolledStudent.attendLesson(lessonId));
             courseRepository.save(course);
         } else {
             throw new IllegalArgumentException("Invalid OTP");

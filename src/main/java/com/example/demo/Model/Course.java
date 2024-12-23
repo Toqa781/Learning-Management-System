@@ -2,6 +2,7 @@ package com.example.demo.Model;
 
 import com.example.demo.Model.Assessments.Assignment;
 import com.example.demo.Model.Assessments.Questions.QuestionBank;
+import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public class Course {
     //    @Column(name = "courseDescription")
     String courseDescription;
 
+    @ManyToOne
+    @JoinColumn(name = "creator_id", nullable = false)
+    private Instructor creator;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Lesson> lessons = new ArrayList<>();
 
@@ -33,10 +38,11 @@ public class Course {
 
     public Course() {}
 
-    public Course(String courseId, String courseName, String courseDescription) {
+    public Course(String courseId, String courseName, String courseDescription,Instructor creator) {
         this.courseId = courseId;
         this.courseName = courseName;
         this.courseDescription = courseDescription;
+        this.creator=creator;
     }
 
     public void addLesson(Lesson lesson){

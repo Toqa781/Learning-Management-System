@@ -5,6 +5,7 @@ import com.example.demo.Model.Users.Student;
 import com.example.demo.Service.*;
 import com.example.demo.Service.Authentication.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,13 +24,29 @@ public class CourseController {
     @PostMapping
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     public void createCourse(@RequestBody Course course) {
-        courseService.createCourse(course.getCourseId(), course.getCourseName(), course.getCourseDescription());
+        String instructorId = SecurityContextHolder.getContext().getAuthentication().getName();
+        Instructor instructor = new Instructor(); // Assuming you have a method to fetch the Instructor object
+        instructor.setUserId(instructorId);
+        course.setCreator(instructor);
+        courseService.createCourse(course.getCourseId(), course.getCourseName(), course.getCourseDescription(), instructor);
     }
 
+
     @GetMapping
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
+    public List<Course> getCoursesForInstructor() {
+        // Fetch the currently logged-in user's ID from the security context
+        String instructorId = SecurityContextHolder.getContext().getAuthentication().getName();
+        return courseService.getCoursesByInstructor(instructorId);
+    }
+
+
+    @GetMapping("/all")
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'INSTRUCTOR', 'ADMIN')")
     public List<Course> getAllCourses() {
         return courseService.getAllCourses();
     }
+
 
     @GetMapping("/{courseId}")
     public Course getCourseById(@PathVariable String courseId) {
