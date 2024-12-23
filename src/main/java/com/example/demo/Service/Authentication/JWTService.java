@@ -59,6 +59,15 @@ public class JWTService {
                 .getBody();
     }
 
+    public String extractId(String token, String claimKey) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody().get(claimKey , String.class);
+    }
+
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }

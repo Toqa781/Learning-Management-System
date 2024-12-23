@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Setter
@@ -13,24 +14,24 @@ import java.util.Date;
 //@Table(name = "submission")
 
 public abstract class Submission {
-    @Id
+
 //    @Column(name = "student_id")
-    private long studentID;
+    private String studentID;
     //    @Column(name = "id")
+    @Id
     private long ID;
 
     //    @Column(name = "grade")
     private double grade;
 
     //    @Column(name = "subDate")
-    private Date submissionDate;
+    private LocalDateTime submissionDate;
 
     //    @Column(name = "isGraded")
     private boolean isGraded;
 
-    public Submission(long studentID, long ID, Date submissionDate) {
+    public Submission(String studentID, LocalDateTime submissionDate) {
         this.studentID = studentID;
-        this.ID = ID;
         this.grade = -1;
         this.submissionDate = submissionDate;
         this.isGraded = false;
@@ -56,11 +57,11 @@ public abstract class Submission {
         this.grade = grade;
     }
 
-    public Date getSubmissionDate() {
+    public LocalDateTime getSubmissionDate() {
         return submissionDate;
     }
 
-    public void setSubmissionDate(Date submissionDate) {
+    public void setSubmissionDate(LocalDateTime submissionDate) {
         this.submissionDate = submissionDate;
     }
 
@@ -72,13 +73,12 @@ public abstract class Submission {
         isGraded = graded;
     }
 
-    public long getStudentID() {
+    public String getStudentID() {
         return studentID;
     }
 
-    public void setStudentID(long studentID) {
+    public void setStudentID(String studentID) {
         this.studentID = studentID;
     }
-
 
 }

@@ -7,16 +7,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AssignmentService {
     @Autowired
     private AssignmentRepository assignmentRepository;
 
-    AssignmentService(AssignmentRepository assignmentRepository) {}
-
     public void saveAssignment(Assignment assignment){
         assignmentRepository.save(assignment);
+    }
+
+    public Assignment getAssignment(Long assessmentId){
+      return assignmentRepository.findAssignmentById(assessmentId);
     }
 
     public List<Assignment> getAssignmentsByCourseId(String courseId){

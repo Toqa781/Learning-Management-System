@@ -3,6 +3,7 @@ package com.example.demo.Model.Assessments;
 import com.example.demo.Model.Assessments.Questions.Question;
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Quiz extends Assessment {
 
     public Quiz() {}
 
-    public Quiz(Long id, String title, String description, Date deadline, double grade, int numberOfQuestions) {
+    public Quiz(Long id, String title, String description, LocalDateTime deadline, double grade, int numberOfQuestions) {
         super(id, title, description, deadline, grade) ;
         this.numberOfQuestions = numberOfQuestions;
 

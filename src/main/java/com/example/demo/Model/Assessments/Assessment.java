@@ -1,12 +1,16 @@
 package com.example.demo.Model.Assessments;
 
-import com.example.demo.Model.Assessments.Questions.Question;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
+
+@Setter
+@Getter
 @Entity
 //@Table(name = "assessment")
 public abstract class Assessment {
@@ -28,11 +32,11 @@ public abstract class Assessment {
     private LocalDateTime assignedDate;
 
 //    @Column(name = "deadline")
-    private Date deadline;
+private LocalDateTime deadline;
 
     private String courseId;
 
-    public Assessment(long id, String title, String description, Date deadline, double assessmentGrade) {
+    public Assessment(long id, String title, String description, LocalDateTime deadline, double assessmentGrade) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -44,8 +48,13 @@ public abstract class Assessment {
 
     public Assessment() {}
 
+
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -64,6 +73,14 @@ public abstract class Assessment {
         this.description = description;
     }
 
+    public double getAssessmentGrade() {
+        return assessmentGrade;
+    }
+
+    public void setAssessmentGrade(double assessmentGrade) {
+        this.assessmentGrade = assessmentGrade;
+    }
+
     public LocalDateTime getAssignedDate() {
         return assignedDate;
     }
@@ -72,26 +89,13 @@ public abstract class Assessment {
         this.assignedDate = assignedDate;
     }
 
-    public Date getDeadline() {
+    public LocalDateTime getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
-
-    public double getAssessmentGrade() {
-        return assessmentGrade;
-    }
-
-    public void setAssessmentGrade(double grade) {
-        this.assessmentGrade = grade;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
 
     public String getCourseId() {
         return courseId;
