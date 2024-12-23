@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.http.MediaType;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Setter
@@ -20,19 +21,11 @@ public class Assignment extends Assessment {
 
     private String fileMediaType;
 
-    public Assignment(long id, String title, String description, Date deadline, double grade) {
+    public Assignment(long id, String title, String description, LocalDateTime deadline, double grade) {
         super(id, title, description, deadline, grade);
     }
 
     public Assignment(){}
-
-    public byte[] getFileContent() {
-        return fileContent;
-    }
-
-    public void setFileContent(byte[] fileContent) {
-        this.fileContent = fileContent;
-    }
 
     public String getFileName() {
         return fileName;
@@ -40,6 +33,14 @@ public class Assignment extends Assessment {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public byte[] getFileContent() {
+        return fileContent;
+    }
+
+    public void setFileContent(byte[] fileContent) {
+        this.fileContent = fileContent;
     }
 
     public String getFileMediaType() {

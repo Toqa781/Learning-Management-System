@@ -5,9 +5,8 @@ import com.example.demo.Model.Course;
 import com.example.demo.Service.Assessments.AssignmentService;
 import com.example.demo.Service.CourseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.codec.ByteArrayDecoder;
-import org.springframework.core.codec.ByteArrayEncoder;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @RestController
@@ -51,6 +51,7 @@ public class AssignmentController {
         ObjectMapper objectMapper = new ObjectMapper();
         Assignment newAssignment;
         try {
+            objectMapper.registerModule(new JavaTimeModule());
             newAssignment = objectMapper.readValue(assignmentJson, Assignment.class);
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid assignment data.");
@@ -83,7 +84,6 @@ public class AssignmentController {
         if (course == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course doesn't exist.");
         }
-
         Assignment assignment=assignmentService.getAssignmentByCourseIdAndFileName(courseId , fileName);
         if (assignment == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Assignment doesn't exist.");

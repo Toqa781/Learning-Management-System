@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +18,8 @@ public class QuizSubmission extends Submission {
     @ElementCollection
     List<Answer> studentAnswers;
 
-    public QuizSubmission(long studentID, long ID, Date submissionDate) {
-        super(studentID, ID, submissionDate);
+    public QuizSubmission(String studentID, LocalDateTime submissionDate) {
+        super(studentID, submissionDate);
     }
 
     public QuizSubmission() {

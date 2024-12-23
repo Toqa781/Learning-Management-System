@@ -1,4 +1,5 @@
 package com.example.demo.Filters;
+
 import com.example.demo.Service.Authentication.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,7 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
+
 import com.example.demo.Service.Authentication.JWTService;
 
 @Component
@@ -18,10 +21,12 @@ import com.example.demo.Service.Authentication.JWTService;
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JWTService jwtService;
     private final UserService userDetailsService;
+
     JwtAuthFilter(JWTService jwtService, UserService userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
