@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 //@Table(name = "quiz")
 public class Quiz extends Assessment {
-    @OneToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Question> quizQuestions;
 
     //    @Column(name = "numberOfQs")
@@ -17,8 +17,8 @@ public class Quiz extends Assessment {
 
     public Quiz() {}
 
-    public Quiz(Long id, String title, String description, Date assignedDate, Date deadline, double grade, String courseId, int numberOfQuestions) {
-        super(id, title, description, assignedDate, deadline, grade) ;
+    public Quiz(Long id, String title, String description, Date deadline, double grade, int numberOfQuestions) {
+        super(id, title, description, deadline, grade) ;
         this.numberOfQuestions = numberOfQuestions;
 
     }

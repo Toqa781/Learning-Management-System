@@ -1,5 +1,9 @@
 package com.example.demo.Service.Assessments;
 
+import com.example.demo.Model.Assessments.Questions.Essay;
+import com.example.demo.Model.Assessments.Questions.MCQ;
+import com.example.demo.Model.Assessments.Questions.TrueOrFalse;
+import com.example.demo.Model.Assessments.Submissions.QuizSubmission;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Questions.Question;
 import com.example.demo.Model.Assessments.Quiz;
@@ -7,8 +11,11 @@ import com.example.demo.Repository.Assesments.Questions.QuestionBankRepository;
 import com.example.demo.Repository.Assesments.QuizRepository;
 import com.example.demo.Repository.Assesments.Submissions.QuizSubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,8 +33,9 @@ public class QuizService {
     private QuestionBankRepository questionBankRepository;
 
 
-    public Quiz saveQuiz(Quiz quiz,Course course) {
-        quiz.setQuizQuestions(createQuizQuestions(quiz.getNumberOfQuestions(),questionBankRepository.findByCourseId(course.getCourseId()).getQuestionList()));
+    public Quiz saveQuiz(Quiz quiz, Course course) {
+        quiz.setCourseId(course.getCourseId());
+        quiz.setQuizQuestions(createQuizQuestions(quiz.getNumberOfQuestions(), questionBankRepository.findByCourseId(course.getCourseId()).getQuestionList()));
         return quizRepository.save(quiz);
     }
 
@@ -36,4 +44,25 @@ public class QuizService {
         int size = min(numberOfQuestions, questions.size());
         return questions.subList(0, size);
     }
+
+
+    public List<Quiz> getQuizesInCourse(String courseId) {
+        return quizRepository.findByCourseId(courseId);
+    }
+
+    public Quiz getSpecificQuiz(String courseId, Long quizId) {
+        List<Quiz> quizList = getQuizesInCourse(courseId);
+        for (Quiz quiz : quizList) {
+            if (quiz.getId() == quizId) {
+                return quiz;
+            }
+        }
+        return null;
+    }
+
+    public void saveSubmission(QuizSubmission quizSubmission){
+        quizSubmissionRepository.save(quizSubmission);
+    }
+
+
 }

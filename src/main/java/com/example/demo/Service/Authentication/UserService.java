@@ -1,8 +1,12 @@
 package com.example.demo.Service.Authentication;
+import com.example.demo.Model.Course;
 import com.example.demo.Model.Users.Admin;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,10 +25,15 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
+//    private final AuthenticationManager authenticationManager;
+//    private final JWTService jwtService;
+
+
 
     public UserService(UserRepository repository, PasswordEncoder encoder) {
         this.repository = repository;
         this.encoder = encoder;
+
     }
 
     @Override
@@ -61,15 +70,7 @@ public class UserService implements UserDetailsService {
 
     }
 
-//    public boolean login(String userId, String rawPassword) {
-//        Optional<User> userOptional = repository.findById(userId);
-//
-//        if (userOptional.isPresent()) {
-//            User user = userOptional.get();
-//            return encoder.matches(rawPassword, user.getPassword());
-//        }
-//        return false;
-//    }
+
 
     public void manageProfile(User user,String newEmail ,String newName) {
         boolean userExist = repository.existsById(user.getUserId());
@@ -83,21 +84,17 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException("User not found");
         }
     }
-    @PreAuthorize("hasRole('ADMIN')")
-    public User createUser(Admin admin, User newUser) {
-        if (!repository.existsById(admin.getUserId())) {
-            throw new IllegalArgumentException("Admin doesn't exist.");
-        }
 
+    public User createUser(User newUser) {
         if (repository.existsById(newUser.getUserId())) {
             throw new IllegalArgumentException("User ID already exists.");
         }
-        newUser.setUserId(newUser.getUserId());
         newUser.setPassword(encoder.encode(newUser.getPassword()));
         repository.save(newUser);
 
         return newUser;
     }
+
 
 
 }

@@ -49,7 +49,6 @@ public class QuestionBankController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question Bank doesn't exist, Create One First");
         }
         for (Question question : questions) {
-            System.out.println("Deserialized Question Type: " + question.getClass().getName());
 
             if (question instanceof MCQ mcq) {
                 if (mcq.getOptions() == null || mcq.getOptions().isEmpty()) {

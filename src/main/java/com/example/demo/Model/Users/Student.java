@@ -42,4 +42,7 @@ public class Student extends User {
     public void setEnrolledCourse(Course course) {
         this.enrolledCourse=course;
     }
+    public Student(Long userId, String username, String email, String password) {
+        super(String.valueOf(userId), username, email, password, "STUDENT");
+    }
 }
