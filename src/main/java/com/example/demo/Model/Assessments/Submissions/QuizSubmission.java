@@ -28,6 +28,14 @@ public class QuizSubmission extends Submission {
         this.studentAnswers = studentSubmission;
     }
 
+    public List<Answer> getStudentAnswers() {
+        return studentAnswers;
+    }
+
+    public void setStudentAnswers(List<Answer> studentAnswers) {
+        this.studentAnswers = studentAnswers;
+    }
+
     @Embeddable
     public static class Answer {
         private String stringAnswer;

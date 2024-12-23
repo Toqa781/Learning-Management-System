@@ -71,7 +71,7 @@ public class ExcelGenerateService {
             Sheet sheet = workbook.createSheet(sheetTitle);
 
             Row headerRow = sheet.createRow(0);
-            String[] headers = {"Student ID", "Quiz ID", "Submission Date", "Grade"};
+            String[] headers = {"Student ID", "Quiz ID", "Submission Date", "Grade" };
 
             for (int i = 0; i < headers.length; i++) {
                 Cell cell = headerRow.createCell(i);
@@ -79,24 +79,32 @@ public class ExcelGenerateService {
                 cell.setCellStyle(createHeaderStyle(workbook));
             }
 
+
             int rowIdx = 1;
             for (List<QuizSubmission> quizSubmissions : studentsSubmissions) {
                 for (QuizSubmission studentSubmission : quizSubmissions) {
                     Row row = sheet.createRow(rowIdx++);
+
                     row.createCell(0).setCellValue(studentSubmission.getStudentID());
                     row.createCell(1).setCellValue(studentSubmission.getAssessmentId());
                     row.createCell(2).setCellValue(studentSubmission.getSubmissionDate().toString());
                     row.createCell(3).setCellValue(studentSubmission.getGrade());
+                    System.out.println("error in items end?");
                 }
 
             }
+            System.out.println("here6");
+
 
             for (int i = 0; i < headers.length; i++) {
                 sheet.autoSizeColumn(i);
             }
 
+            System.out.println("here7");
 
             workbook.write(outputStream);
+            System.out.println("here8");
+
             return outputStream.toByteArray();
 
         } catch (Exception e) {

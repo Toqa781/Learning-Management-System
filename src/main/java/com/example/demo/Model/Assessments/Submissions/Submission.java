@@ -87,4 +87,11 @@ public abstract class Submission {
         this.studentID = studentID;
     }
 
+    public long getAssessmentId() {
+        return assessmentId;
+    }
+
+    public void setAssessmentId(long assessmentId) {
+        this.assessmentId = assessmentId;
+    }
 }

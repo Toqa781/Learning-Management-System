@@ -63,6 +63,18 @@ public class QuizController {
 
     }
 
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
+    @GetMapping("/quizes/getSubmissions")
+    public ResponseEntity<?> getAllSub (@PathVariable String courseId){
+       List <Quiz> quizes = quizService.getQuizesInCourse(courseId);
+       List<List<QuizSubmission>>subs = new ArrayList<>();
+       for (Quiz quiz: quizes){
+           subs.add(quizService.getAllStudentsQuizSubmissions(quiz.getId()));
+
+       }
+        return ResponseEntity.status(HttpStatus.CREATED).body(subs);
+    }
+
     @PreAuthorize("hasAuthority('STUDENT')")
     @PostMapping("/{quizId}/submitQuiz")
     public ResponseEntity<?> submitQuiz(@PathVariable String courseId, @PathVariable Long quizId ,@RequestBody QuizSubmission quizSubmission) {
@@ -138,7 +150,11 @@ public class QuizController {
         mark.append("Student Mark: ").append(finalMark).append("/").append(quiz.getAssessmentGrade()).append('\n');
         mark.append(result);
 
+        quizSubmission.setAssessmentId(quizId);
+        quizSubmission.setGraded(true);
+        quizSubmission.setSubmissionDate(LocalDateTime.now());
         quizService.saveSubmission(quizSubmission);
+
 
         return ResponseEntity.ok(mark.toString());
     }
