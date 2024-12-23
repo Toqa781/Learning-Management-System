@@ -37,21 +37,6 @@ public class NotificationsController {
 //        return ResponseEntity.ok(notifications);
 //    }
 
-    // GET: Retrieve notifications for a specific user (all or unread only)
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<Notifications>> getNotifications(
-            @PathVariable String userId,
-            @RequestParam(defaultValue = "false") boolean unreadOnly) {
-        List<Notifications> notifications;
-        if (unreadOnly) {
-            notifications = notificationService.getUnreadNotificationsByUserId(userId);
-        } else {
-            notifications = notificationService.getNotificationsByUserId(userId);
-        }
-        return notifications.isEmpty()
-                ? ResponseEntity.ok(Collections.emptyList())
-                : ResponseEntity.ok(notifications);
-    }
 
     // GET: Retrieve notifications for instructors (students enrolling in their courses)
     @GetMapping("/instructor/{userId}")
@@ -71,12 +56,6 @@ public class NotificationsController {
                 : ResponseEntity.ok(notifications);
     }
 
-    // PUT: Mark a notification as read
-    @PutMapping("/{userId}/mark-read/{notificationId}")
-    public ResponseEntity<String> markAsRead(@PathVariable String userId, @PathVariable String notificationId) {
-        notificationService.markAsRead(notificationId);
-        return ResponseEntity.ok("Notification marked as read for user " + userId);
-    }
 }
 
 // DTO for sending notifications to all students

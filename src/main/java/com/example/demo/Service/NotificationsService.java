@@ -77,9 +77,9 @@ public class NotificationsService {
 //    }
 
     // Retrieve notifications for a specific user
-    public List<Notifications> getNotificationsByUserId(String userId) {
-        return notificationRepository.findByUser_UserId(userId);
-    }
+//    public List<Notifications> getNotificationsByUserId(String userId) {
+//        return notificationRepository.findByUser_UserId(userId);
+//    }
 
     // Retrieve unread notifications for a specific user
     public List<Notifications> getUnreadNotificationsByUserId(String userId) {
@@ -96,12 +96,4 @@ public class NotificationsService {
         return inMemoryNotificationMap.getOrDefault(studentId, new ArrayList<>());
     }
 
-    // Mark a notification as read
-    @Transactional
-    public Notifications markAsRead(String notificationId) {
-        Notifications notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new EntityNotFoundException("Notification with id " + notificationId + " not found"));
-        notification.setRead(true);
-        return notificationRepository.save(notification);
-    }
 }
