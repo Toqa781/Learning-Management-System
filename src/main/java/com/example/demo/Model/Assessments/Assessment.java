@@ -14,7 +14,6 @@ import java.util.Date;
 @Entity
 //@Table(name = "assessment")
 public abstract class Assessment {
-
     @Id
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "assessment_id")
@@ -42,7 +41,6 @@ private LocalDateTime deadline;
         this.description = description;
         this.deadline = deadline;
         this.assessmentGrade = assessmentGrade;
-
         this.assignedDate=LocalDateTime.now();
     }
 

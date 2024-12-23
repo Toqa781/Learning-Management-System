@@ -20,12 +20,11 @@ public class AssignmentSubmission extends Submission {
     @Column(name = "file_content", columnDefinition = "BLOB")
     private byte[] fileContent;
 
-    private long assessmentId;
+//    private long assessmentId;
 
     public AssignmentSubmission(String studentID, long assessmentId, LocalDateTime submissionDate, byte[] fileContent) {
-        super(studentID, submissionDate);
+        super(studentID, assessmentId, submissionDate);
         this.fileContent = fileContent;
-        this.assessmentId= assessmentId;
     }
 
     public AssignmentSubmission() {

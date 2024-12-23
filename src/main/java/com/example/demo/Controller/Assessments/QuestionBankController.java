@@ -7,6 +7,7 @@ import com.example.demo.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class QuestionBankController {
     @Autowired
     private CourseService courseService;
 
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @PostMapping("/createQuestionBank")
     public ResponseEntity<?> createQuestionBank(@PathVariable String courseId, @RequestBody QuestionBank questionBank) {
         Course course = courseService.getCourseById(courseId);
@@ -37,6 +39,7 @@ public class QuestionBankController {
         return ResponseEntity.status(HttpStatus.CREATED).body(questionBank);
     }
 
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @PostMapping("/createQuestion")
     public ResponseEntity<?> createQuestions(@PathVariable String courseId, @RequestBody List<Question> questions) {
         Course course = courseService.getCourseById(courseId);

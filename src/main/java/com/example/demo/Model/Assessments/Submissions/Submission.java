@@ -1,6 +1,8 @@
 package com.example.demo.Model.Assessments.Submissions;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +21,10 @@ public abstract class Submission {
     private String studentID;
     //    @Column(name = "id")
     @Id
-    private long ID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long ID; //submission id
+
+    private long assessmentId; //quizId, assi
 
     //    @Column(name = "grade")
     private double grade;
@@ -30,11 +35,12 @@ public abstract class Submission {
     //    @Column(name = "isGraded")
     private boolean isGraded;
 
-    public Submission(String studentID, LocalDateTime submissionDate) {
+    public Submission(String studentID, long assessmentId, LocalDateTime submissionDate) {
         this.studentID = studentID;
         this.grade = -1;
         this.submissionDate = submissionDate;
         this.isGraded = false;
+        this.assessmentId= assessmentId;
     }
 
     public Submission() {
