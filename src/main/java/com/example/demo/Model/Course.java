@@ -4,6 +4,7 @@ import com.example.demo.Model.Assessments.Assignment;
 import com.example.demo.Model.Assessments.Questions.QuestionBank;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Course {
 
     @ManyToOne
     @JoinColumn(name = "creator_id", nullable = false)
+    @JsonIgnore
     private Instructor creator;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
@@ -91,7 +93,12 @@ public class Course {
         this.lessons = lessons;
     }
 
+    public Instructor getCreator() {
+        return creator;
+    }
 
-
+    public void setCreator(Instructor creator) {
+        this.creator = creator;
+    }
 }
 

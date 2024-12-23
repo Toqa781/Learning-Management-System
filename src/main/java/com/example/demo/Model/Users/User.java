@@ -1,6 +1,11 @@
 package com.example.demo.Model.Users;
 
+import com.example.demo.Model.Notifications;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +28,9 @@ public class User {
 
     @Column(name = "role")
     private String role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notifications> notifications;
 
 
     public User(String role, String password, String email, String name, String userId) {
@@ -76,7 +84,13 @@ public class User {
         this.role = role;
     }
 
+    public List<Notifications> getNotifications() {
+        return notifications;
+    }
 
+    public void setNotifications(List<Notifications> notifications) {
+        this.notifications = notifications;
+    }
 
 
 }

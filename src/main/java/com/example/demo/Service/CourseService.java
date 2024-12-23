@@ -16,9 +16,12 @@ import java.util.*;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final NotificationsService
+    notificationsService;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, NotificationsService notificationsService) {
         this.courseRepository = courseRepository;
+        this.notificationsService = notificationsService;
     }
 
     // private final Map<String, Course> courses = new HashMap<>();
@@ -53,6 +56,9 @@ public class CourseService {
         Course course = getCourseById(courseId); // Ensures course exists
         course.enrollStudent(student);
         courseRepository.save(course);
+        // Notify the instructor
+        String message = "Student " + student.getUserId() + " has enrolled in your course: " + course.getCourseName();
+        notificationsService.createNotification(course.getCreator(), message, "student_enrollment",course);
     }
 
     @Transactional
