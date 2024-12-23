@@ -36,9 +36,10 @@ public class Student extends User {
     }
 
     public void attendLesson(String lessonId) {
-
+        this.attendedLessons.add(lessonId);
     }
 
     public void setEnrolledCourse(Course course) {
+        this.enrolledCourse=course;
     }
 }

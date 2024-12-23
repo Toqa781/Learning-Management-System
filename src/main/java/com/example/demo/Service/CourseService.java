@@ -8,6 +8,7 @@ import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Repository.CourseRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -48,6 +49,7 @@ public class CourseService {
         courseRepository.save(course);
     }
 
+    @Transactional
     public List<Student> getEnrolledStudents(String courseId) {
         Course course = getCourseById(courseId); // Ensures course exists
         course.getEnrolledStudents().size();
