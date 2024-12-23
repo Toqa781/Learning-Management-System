@@ -13,8 +13,10 @@ import com.example.demo.Service.Assessments.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,7 @@ public class QuizController {
     @Autowired
     private CourseService courseService;
 
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @PostMapping("/createQuiz")
     public ResponseEntity<Quiz> createQuiz(@PathVariable String courseId, @RequestBody Quiz quiz) {
         Course course = courseService.getCourseById(courseId);
@@ -49,6 +52,7 @@ public class QuizController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No quiz found with this ID.");
 
     }
+    @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @GetMapping("/getQuizes")
     public ResponseEntity<?> getQuiz(@PathVariable String courseId) {
         List<Quiz> quizList = quizService.getQuizesInCourse(courseId);
@@ -59,6 +63,7 @@ public class QuizController {
 
     }
 
+    @PreAuthorize("hasAuthority('STUDENT')")
     @PostMapping("/{quizId}/submitQuiz")
     public ResponseEntity<?> submitQuiz(@PathVariable String courseId, @PathVariable Long quizId ,@RequestBody QuizSubmission quizSubmission) {
         Quiz quiz = quizService.getSpecificQuiz(courseId, quizId);
@@ -69,6 +74,15 @@ public class QuizController {
         if (quiz.getQuizQuestions().size() != quizSubmission.getStudentAnswers().size()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some Questions Are Not Answered,Please answer all questions.");
         }
+        if (quizService.isStudentPrevSubmit(quizSubmission.getStudentID(), quizId)) {
+            return ResponseEntity.status(HttpStatus.FOUND).body("You have already submitted.");
+        }
+
+        if (quiz.getDeadline().isBefore(LocalDateTime.now())) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Late Submission");
+        }
+
+
         List<QuizSubmission.Answer> correctAnswers = new ArrayList<>();
         List<Double> questionMarks = new ArrayList<>();
         double fullMark = 0;
@@ -115,8 +129,13 @@ public class QuizController {
 
         }
         ///////////////////////////////////////////////////////////////////////////
+        // 1/5    // 10/20
+        //  /20    //   /10
+        // = mark x 20 / fullMark
+        double finalMark = (studentMark*quiz.getAssessmentGrade())/fullMark;
+        quizSubmission.setGrade(finalMark);
 
-        mark.append("Student Mark: ").append(studentMark).append("/").append(fullMark).append('\n');
+        mark.append("Student Mark: ").append(finalMark).append("/").append(quiz.getAssessmentGrade()).append('\n');
         mark.append(result);
 
         quizService.saveSubmission(quizSubmission);

@@ -18,13 +18,12 @@ public class QuizSubmission extends Submission {
     @ElementCollection
     List<Answer> studentAnswers;
 
-    public QuizSubmission(String studentID, LocalDateTime submissionDate) {
-        super(studentID, submissionDate);
+    public QuizSubmission(String studentID,long assessmentId, LocalDateTime submissionDate) {
+        super(studentID,assessmentId ,submissionDate);
     }
 
     public QuizSubmission() {
     }
-
     public void setStudentSubmission (List<Answer> studentSubmission) {
         this.studentAnswers = studentSubmission;
     }

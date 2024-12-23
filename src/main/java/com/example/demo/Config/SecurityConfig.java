@@ -1,5 +1,4 @@
 package com.example.demo.Config;
-import com.example.demo.Service.Authentication.JWTService;
 import com.example.demo.Service.Authentication.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +22,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableMethodSecurity
 public class SecurityConfig  {
     private final JwtAuthFilter authFilter;
-//    private final AuthenticationManager authenticationManager;
-//    private final JWTService jwtService;
     public SecurityConfig(JwtAuthFilter authFilter) {
         this.authFilter = authFilter;
 
@@ -40,7 +37,6 @@ public class SecurityConfig  {
         return http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers( "/users/register","/users/login").permitAll()
-
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults())

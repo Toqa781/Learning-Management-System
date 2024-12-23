@@ -3,6 +3,7 @@ package com.example.demo.Service.Assessments;
 import com.example.demo.Model.Assessments.Questions.Essay;
 import com.example.demo.Model.Assessments.Questions.MCQ;
 import com.example.demo.Model.Assessments.Questions.TrueOrFalse;
+import com.example.demo.Model.Assessments.Submissions.AssignmentSubmission;
 import com.example.demo.Model.Assessments.Submissions.QuizSubmission;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Questions.Question;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.Math.min;
 
@@ -60,7 +62,21 @@ public class QuizService {
         return null;
     }
 
-    public void saveSubmission(QuizSubmission quizSubmission){
+    public List<QuizSubmission> getAllStudentsQuizSubmissions(long assessmentId) {
+        return quizSubmissionRepository.findQuizSubmissionByAssessmentId(assessmentId);
+    }
+
+    public boolean isStudentPrevSubmit(String studentId, Long quizId) {
+        List<QuizSubmission> studentSubmissions = getAllStudentsQuizSubmissions(quizId);
+        for (QuizSubmission quizSubmission : studentSubmissions) {
+            if (Objects.equals(quizSubmission.getStudentID(), studentId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void saveSubmission(QuizSubmission quizSubmission) {
         quizSubmissionRepository.save(quizSubmission);
     }
 
