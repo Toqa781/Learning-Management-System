@@ -8,9 +8,13 @@ import com.example.demo.Model.Assessments.Submissions.QuizSubmission;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Questions.Question;
 import com.example.demo.Model.Assessments.Quiz;
+import com.example.demo.Model.Users.Student;
 import com.example.demo.Repository.Assesments.Questions.QuestionBankRepository;
 import com.example.demo.Repository.Assesments.QuizRepository;
 import com.example.demo.Repository.Assesments.Submissions.QuizSubmissionRepository;
+import com.example.demo.Service.CourseService;
+import com.example.demo.Service.NotificationsService;
+import com.example.demo.Service.StudentNotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +38,28 @@ public class QuizService {
     @Autowired
     private QuestionBankRepository questionBankRepository;
 
+    @Autowired
+    private NotificationsService notificationsService;
+    @Autowired
+    private StudentNotificationsService studentnotificationsService;
+
 
     public Quiz saveQuiz(Quiz quiz, Course course) {
         quiz.setCourseId(course.getCourseId());
         quiz.setQuizQuestions(createQuizQuestions(quiz.getNumberOfQuestions(), questionBankRepository.findByCourseId(course.getCourseId()).getQuestionList()));
-        return quizRepository.save(quiz);
+        // Save the quiz
+        Quiz savedQuiz = quizRepository.save(quiz);
+
+        // Notify students about the new quiz
+        List<Student> enrolledStudents = course.getEnrolledStudents();
+        String quizName = quiz.getTitle() != null ? quiz.getTitle() : "a quiz";
+        for (Student student : enrolledStudents) {
+            String message = "A new quiz '" + quizName + "' has been uploaded for the course: " + course.getCourseName();
+            studentnotificationsService.createStudentNotification(student, message, "quiz_uploaded", course);
+        }
+
+        return savedQuiz;
+
     }
 
     private List<Question> createQuizQuestions(int numberOfQuestions, List<Question> questions) {

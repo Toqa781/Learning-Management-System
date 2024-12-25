@@ -1,6 +1,9 @@
 package com.example.demo.Service;
 
+import com.example.demo.Model.Assessments.Assignment;
+import com.example.demo.Model.Assessments.Quiz;
 import com.example.demo.Model.Course;
+import com.example.demo.Model.Lesson;
 import com.example.demo.Model.Notifications;
 import com.example.demo.Model.Users.User;
 import com.example.demo.Repository.NotificationsRepository;

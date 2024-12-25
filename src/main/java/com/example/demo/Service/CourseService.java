@@ -19,10 +19,13 @@ public class CourseService {
     private final CourseRepository courseRepository;
     private final NotificationsService
     notificationsService;
+    private final StudentNotificationsService
+            studentnotificationsService;
 
-    public CourseService(CourseRepository courseRepository, NotificationsService notificationsService) {
+    public CourseService(CourseRepository courseRepository, NotificationsService notificationsService, StudentNotificationsService studentnotificationsService) {
         this.courseRepository = courseRepository;
         this.notificationsService = notificationsService;
+        this.studentnotificationsService = studentnotificationsService;
     }
 
     // private final Map<String, Course> courses = new HashMap<>();
@@ -51,6 +54,13 @@ public class CourseService {
         lesson.setOtp(UUID.randomUUID().toString());
         course.addLesson(lesson);
         courseRepository.save(course);
+        // Notify enrolled students about the new lesson
+        List<Student> enrolledStudents = course.getEnrolledStudents();
+        for (Student student : enrolledStudents) {
+            String message = "A new lesson '" + lesson.getLessonName()+ "' has been uploaded for the course: " + course.getCourseName();
+            studentnotificationsService.createStudentNotification(student, message, "lesson_uploaded", course);
+        }
+
     }
 
     public void enrollCourse(String courseId, Student student) {
