@@ -38,7 +38,7 @@ public class NotificationsService {
             throw new IllegalArgumentException("Message cannot be empty");
         }
         if (type == null || type.isEmpty()) {
-            type = "default"; // Default type if missing
+            type = "default";
         }
 
         try {
@@ -57,44 +57,10 @@ public class NotificationsService {
 
     }
 
-//    // Send notification to all students
-//    public List<Notifications> sendNotificationToAllStudents(String content, List<Long> studentIds) {
-//        List<Notifications> sentNotifications = new ArrayList<>();
-//
-//        for (Long studentId : studentIds) {
-//            Notifications notification = new Notifications();
-//            notification.setNotificationId(String.valueOf(currentId++));
-//            notification.setUserId(String.valueOf(studentId));
-//            notification.setMessage(content);
-//            notification.setTypeOfNotification("student_notification");
-//            notification.setRead(false);
-//
-//            // Save to database
-//            Notifications savedNotification = notificationRepository.save(notification);
-//
-//            // Maintain in-memory map
-//            inMemoryNotificationMap.putIfAbsent(studentId, new ArrayList<>());
-//            inMemoryNotificationMap.get(studentId).add(savedNotification);
-//
-//            sentNotifications.add(savedNotification);
-//        }
-//
-//        return sentNotifications;
-//    }
 
-    // Retrieve notifications for a specific user
-//    public List<Notifications> getNotificationsByUserId(String userId) {
-//        return notificationRepository.findByUser_UserId(userId);
-//    }
-
-    // Retrieve unread notifications for a specific user
-    public List<Notifications> getUnreadNotificationsByUserId(String userId) {
-        return notificationRepository.findByUser_UserIdAndRead(userId, false);
-    }
-
-    // Retrieve notifications for instructors (e.g., students enrolling in their courses)
+    // Retrieve notifications for instructors
     public List<Notifications> getInstructorNotifications(String userId) {
-        return notificationRepository.findByUser_UserId(userId); // Can add filtering logic for instructor-specific notifications
+        return notificationRepository.findByUser_UserId(userId);
     }
 
     // Retrieve notifications for a specific student
