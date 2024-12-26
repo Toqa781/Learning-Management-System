@@ -4,8 +4,10 @@ package com.example.demo.Service;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Lesson;
 import com.example.demo.Model.Notifications;
+import com.example.demo.Model.StudentNotification;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Repository.NotificationsRepository;
+import com.example.demo.Repository.StudentNotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -21,8 +23,11 @@ public class StudentNotificationsService{
     @Autowired
     private NotificationsRepository notificationRepository;
 
-    public StudentNotificationsService(NotificationsRepository notificationsRepository) {
-        this.notificationRepository = notificationsRepository;
+    @Autowired
+    private StudentNotificationRepository studentNotificationRepository;
+
+    public StudentNotificationsService(StudentNotificationRepository studentNotificationRepository) {
+        this.studentNotificationRepository = studentNotificationRepository;
     }
 
     // Create a new notification for a student
@@ -39,12 +44,12 @@ public class StudentNotificationsService{
         }
 
         try {
-            Notifications notification = new Notifications();
+            StudentNotification notification = new StudentNotification();
             notification.setUser(student);
             notification.setMessage(message);
             notification.setTypeOfNotification(type);
             notification.setCourse(course);
-            return notificationRepository.save(notification);
+            return studentNotificationRepository.save(notification);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create notification", e);
         }
@@ -72,7 +77,7 @@ public class StudentNotificationsService{
     // Retrieve notifications for a specific student
     public List<Notifications> getNotificationsForStudent(String studentId) {
         try {
-            return notificationRepository.findByUser_UserId(studentId);
+            return studentNotificationRepository.findByUser_UserId(studentId);
         } catch (Exception e) {
             return new ArrayList<>(); // Return an empty list in case of any errors
         }

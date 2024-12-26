@@ -61,7 +61,4 @@ public class NotificationsServiceTest {
         assertEquals("instructor001", notification.getUser().getUserId());
     }
 
-
-
-
 }

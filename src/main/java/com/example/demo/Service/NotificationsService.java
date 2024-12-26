@@ -34,7 +34,7 @@ public class NotificationsService {
             throw new IllegalArgumentException("Message cannot be empty");
         }
         if (type == null || type.isEmpty()) {
-            type = "default"; // Default type if missing
+            type = "default";
         }
 
         try {
@@ -83,17 +83,17 @@ public class NotificationsService {
 //        return notificationRepository.findByUser_UserId(userId);
 //    }
 
-    // Retrieve unread notifications for a specific user
+    //retrieve unread notifications for a specific user
     public List<Notifications> getUnreadNotificationsByUserId(String userId) {
         return notificationRepository.findByUser_UserIdAndRead(userId, false);
     }
 
-    // Retrieve notifications for instructors (e.g., students enrolling in their courses)
+    //retrieve notifications for instructors
     public List<Notifications> getInstructorNotifications(String userId) {
         return notificationRepository.findByUser_UserId(userId); // Can add filtering logic for instructor-specific notifications
     }
 
-    // Retrieve notifications for a specific student
+    //retrieve notifications for a specific student
     public List<Notifications> getNotificationsForStudent(Long studentId) {
         return inMemoryNotificationMap.getOrDefault(studentId, new ArrayList<>());
     }

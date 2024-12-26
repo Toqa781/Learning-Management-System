@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.Model.Notifications;
 import com.example.demo.Service.NotificationsService;
+import com.example.demo.Service.StudentNotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,9 @@ public class NotificationsController {
     @Autowired
     private NotificationsService notificationService;
 
-    // POST: Add a new notification for a specific user
+    @Autowired
+    private StudentNotificationsService studentNotificationsService;
+
 //    @PostMapping("/add")
 //    public ResponseEntity<Notifications> addNotification(
 //            @RequestParam String userId,
@@ -27,7 +30,6 @@ public class NotificationsController {
 //        return ResponseEntity.ok(createdNotification);
 //    }
 
-//    // POST: Send a notification to all students
 //    @PostMapping("/students")
 //    public ResponseEntity<List<Notifications>> sendNotificationToAllStudents(@RequestBody NotificationAllRequest request) {
 //        List<Notifications> notifications = notificationService.sendNotificationToAllStudents(
@@ -46,8 +48,8 @@ public class NotificationsController {
     }
 
     @GetMapping("/student/{id}")
-    public ResponseEntity<List<Notifications>> getNotificationsForStudent(@PathVariable("id") Long studentId) {
-        List<Notifications> notifications = notificationService.getNotificationsForStudent(studentId);
+    public ResponseEntity<List<Notifications>> getNotificationsForStudent(@PathVariable("id") String studentId) {
+        List<Notifications> notifications = studentNotificationsService.getNotificationsForStudent(studentId);
         return notifications.isEmpty()
                 ? ResponseEntity.ok(Collections.emptyList())
                 : ResponseEntity.ok(notifications);
