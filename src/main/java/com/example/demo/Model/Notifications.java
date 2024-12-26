@@ -111,7 +111,7 @@ public class Notifications {
 
     public void setUser(User user) {
         this.user = user;
-        this.userType = user.getRole();  // Dynamically set userType based on User's role
+        this.userType = user.getRole();
     }
     @PrePersist
     protected void onCreate() {
@@ -134,7 +134,6 @@ public class Notifications {
     public void setCourse(Course course) {
         this.course = course;
     }
-    // Custom getter to return only course name instead of the whole course object
     public String getCourseName() {
         return this.course != null ? this.course.getCourseName() : null;
     }
