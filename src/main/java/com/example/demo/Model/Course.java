@@ -39,6 +39,7 @@ public class Course {
 
 
 
+
     public Course() {}
 
     public Course(String courseId, String courseName, String courseDescription,Instructor creator) {
@@ -60,6 +61,10 @@ public class Course {
             enrolledStudents.add(student);
             student.setEnrolledCourse(this);
         }
+    }
+
+    public void setEnrolledStudents(List<Student> enrolledStudents) {
+        this.enrolledStudents = enrolledStudents;
     }
 
     public String getCourseId() {

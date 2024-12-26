@@ -39,7 +39,7 @@ public class StudentNotificationsService{
 
         try {
             Notifications notification = new Notifications();
-            notification.setUser(student); // Assuming Notifications model has a 'user' field
+            notification.setUser(student);
             notification.setMessage(message);
             notification.setTypeOfNotification(type);
             notification.setCourse(course);

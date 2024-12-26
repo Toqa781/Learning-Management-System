@@ -4,6 +4,7 @@ package com.example.demo.Model;
 import jakarta.persistence.*;
 
 import java.util.UUID;
+
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import jakarta.persistence.Entity;
@@ -21,7 +22,8 @@ public class Lesson {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    public Lesson() {}
+    public Lesson() {
+    }
 
     public Lesson(String lessonId, String lessonName) {
         if (lessonId == null || lessonName == null || lessonId.isEmpty() || lessonName.isEmpty()) {

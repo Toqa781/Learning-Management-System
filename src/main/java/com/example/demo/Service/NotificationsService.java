@@ -28,8 +28,8 @@ public class NotificationsService {
 
     // Create new system notification
     @Transactional
-    public Notifications createNotification(User userId, String message, String type ,Course course) {
-        if (userId == null || userId==null) {
+    public Notifications createNotification(User userId, String message, String type, Course course) {
+        if (userId == null) {
             throw new IllegalArgumentException("User ID cannot be empty");
         }
         if (message == null || message.isEmpty()) {
@@ -41,12 +41,13 @@ public class NotificationsService {
 
         try {
             Notifications notification = new Notifications();
-            notification.setNotificationId(String.valueOf(currentId++));
+//            notification.setNotificationId(String.valueOf(currentId++));
             notification.setUser(userId);
             notification.setMessage(message);
             notification.setTypeOfNotification(type);
             //notification.setRead(false);
             notification.setCourse(course);
+
             return notificationRepository.save(notification);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to create notification", e);

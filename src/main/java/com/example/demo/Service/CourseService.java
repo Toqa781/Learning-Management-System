@@ -16,9 +16,11 @@ import java.util.*;
 @Service
 public class CourseService {
 
-    private final CourseRepository courseRepository;
-    private final NotificationsService
-    notificationsService;
+    @Autowired
+    private  CourseRepository courseRepository;
+
+    @Autowired
+    private  NotificationsService notificationsService;
     private final StudentNotificationsService
             studentnotificationsService;
 

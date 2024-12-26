@@ -24,11 +24,11 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("/create") //course
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     public void createCourse(@RequestBody Course course) {
         String instructorId = SecurityContextHolder.getContext().getAuthentication().getName();
-        Instructor instructor = new Instructor(); // Assuming you have a method to fetch the Instructor object
+        Instructor instructor = new Instructor();
         instructor.setUserId(instructorId);
         course.setCreator(instructor);
         courseService.createCourse(course.getCourseId(), course.getCourseName(), course.getCourseDescription(), instructor);

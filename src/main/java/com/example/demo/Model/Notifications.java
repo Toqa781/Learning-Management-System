@@ -16,8 +16,8 @@ public class Notifications {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "notification_id", nullable = false, unique = true)
-    private String notificationId;
+//    @Column(name = "notification_id", nullable = false, unique = true)
+//    private String notificationId;
 
     @Column(name = "type_of_notification")
     private String typeOfNotification;
@@ -50,8 +50,7 @@ public class Notifications {
         // Default constructor for JPA
     }
 
-    public Notifications(Long id, String typeOfNotification, String message, boolean read, String userType, String userId, String timestamp , User user,Course course) {
-        this.id = id;
+    public Notifications( String typeOfNotification, String message, boolean read, String userType, String userId, String timestamp , User user,Course course) {
         this.typeOfNotification = typeOfNotification;
         this.message = message;
         this.read = read;
@@ -68,13 +67,13 @@ public class Notifications {
     public void setId(Long id) {
         this.id = id;
     }
-    public String getNotificationId() {
-        return notificationId;
-    }
-
-    public void setNotificationId(String notificationId) {
-        this.notificationId = notificationId;
-    }
+//    public String getNotificationId() {
+//        return notificationId;
+//    }
+//
+//    public void setNotificationId(String notificationId) {
+//        this.notificationId = notificationId;
+//    }
     public String getTypeOfNotification() {
         return typeOfNotification;
     }
