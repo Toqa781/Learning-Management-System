@@ -2,7 +2,6 @@ package com.example.demo.Service.Assessments;
 
 import com.example.demo.Model.Assessments.Questions.Question;
 import com.example.demo.Model.Assessments.Questions.QuestionBank;
-import com.example.demo.Model.Course;
 import com.example.demo.Repository.Assesments.Questions.QuestionBankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

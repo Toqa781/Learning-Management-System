@@ -1,7 +1,5 @@
 package com.example.demo.Model;
 
-import com.example.demo.Model.Assessments.Assignment;
-import com.example.demo.Model.Assessments.Questions.QuestionBank;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,8 +13,7 @@ import java.util.*;
 @Setter
 @Getter
 public class Course {
-    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id//    @GeneratedValue(strategy = GenerationType.IDENTITY)
 //    @Column(name = "course_id")
     String courseId;
 

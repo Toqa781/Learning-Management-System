@@ -3,10 +3,6 @@ package com.example.demo.Model;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
-
-import com.example.demo.Model.Users.Instructor;
-import com.example.demo.Model.Users.Student;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 

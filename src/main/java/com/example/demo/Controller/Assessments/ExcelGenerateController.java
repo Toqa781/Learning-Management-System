@@ -16,13 +16,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 @RestController
 @CrossOrigin
@@ -104,7 +101,7 @@ public class ExcelGenerateController {
     }
 
     private ResponseEntity<?> downloadingExcel(byte[] excelBytes, String courseId, String title) {
-        String directoryPath = "C:/Reports";
+        String directoryPath = "C:/SW_Project/Reports";
         File directory = new File(directoryPath);
         if (!directory.exists()) {
             boolean created = directory.mkdirs();

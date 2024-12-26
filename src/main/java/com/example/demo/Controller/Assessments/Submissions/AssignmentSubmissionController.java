@@ -111,7 +111,7 @@ public class AssignmentSubmissionController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No submissions found.");
             }
 
-            String directoryPath = "C:/Submissions";
+            String directoryPath = "C:/SW_Project/Submissions";
             File directory = new File(directoryPath);
             if (!directory.exists()) {
                 boolean created = directory.mkdirs();
