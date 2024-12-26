@@ -35,7 +35,6 @@ public class AssignmentController {
     private CourseService courseService;
 
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
-
     @PostMapping("/upload")
     public ResponseEntity<?> uploadAssignment(@PathVariable String courseId, @RequestParam("file") MultipartFile file, @RequestParam("assignment") String assignmentJson) {
 

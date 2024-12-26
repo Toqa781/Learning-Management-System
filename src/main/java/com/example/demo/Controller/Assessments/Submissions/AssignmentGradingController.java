@@ -75,6 +75,10 @@ public class AssignmentGradingController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Course doesn't exist.");
         }
 
+        if(!courseService.checkStudentEnrollment(studentId,courseId)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You have not enrolled in this Course");
+        }
+
         Assignment assignment = assignmentService.getAssignment(assessmentId);
         if (assignment == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Assignment doesn't exist.");

@@ -1,13 +1,12 @@
 package com.example.demo.Controller.Assessments;
 
-import com.example.demo.Model.Assessments.Questions.Essay;
-import com.example.demo.Model.Assessments.Questions.MCQ;
-import com.example.demo.Model.Assessments.Questions.Question;
-import com.example.demo.Model.Assessments.Questions.TrueOrFalse;
+import com.example.demo.Model.Assessments.Questions.*;
 import com.example.demo.Model.Assessments.Submissions.QuizSubmission;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Quiz;
 import com.example.demo.Model.Users.Student;
+import com.example.demo.Service.Assessments.QuestionBankService;
+import com.example.demo.Service.Authentication.JWTService;
 import com.example.demo.Service.CourseService;
 import com.example.demo.Service.Assessments.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -30,21 +30,48 @@ public class QuizController {
     private QuizService quizService;
 
     @Autowired
+    private QuestionBankService questionBankService;
+
+    @Autowired
     private CourseService courseService;
+
+    @Autowired
+    private JWTService jwtService;
 
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @PostMapping("/createQuiz")
-    public ResponseEntity<Quiz> createQuiz(@PathVariable String courseId, @RequestBody Quiz quiz) {
+    public ResponseEntity<?> createQuiz(@PathVariable String courseId, @RequestBody Quiz quiz) {
         Course course = courseService.getCourseById(courseId);
         if (course == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course doesn't exist");
         }
+
+        Quiz quizCheck = quizService.getSpecificQuiz(courseId, quiz.getId());
+        if (quizCheck != null) {
+            return ResponseEntity.status(HttpStatus.FOUND).body("Quiz with same ID already exists.");
+        }
+
+        QuestionBank qb = questionBankService.getQuestionBankByCourseId(courseId);
+        if (qb == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Question Bank doesn't exist");
+        }
+
+        if(qb.getQuestionList().size() < quiz.getNumberOfQuestions()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not enough questions in the question bank");
+        }
+
         Quiz createdQuiz = quizService.saveQuiz(quiz, course);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdQuiz);
     }
 
     @GetMapping("/{quizId}/getQuiz")
     public ResponseEntity<?> getQuiz(@PathVariable String courseId, @PathVariable Long quizId) {
+
+        Course course = courseService.getCourseById(courseId);
+        if (course == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course doesn't exist");
+        }
+
         Quiz quiz = quizService.getSpecificQuiz(courseId, quizId);
         if (quiz != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(quiz);
@@ -55,6 +82,11 @@ public class QuizController {
     @PreAuthorize("hasAuthority('INSTRUCTOR')")
     @GetMapping("/getQuizes")
     public ResponseEntity<?> getQuiz(@PathVariable String courseId) {
+        Course course = courseService.getCourseById(courseId);
+        if (course == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course doesn't exist");
+        }
+
         List<Quiz> quizList = quizService.getQuizesInCourse(courseId);
         if (!quizList.isEmpty()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(quizList);
@@ -70,18 +102,38 @@ public class QuizController {
        List<List<QuizSubmission>>subs = new ArrayList<>();
        for (Quiz quiz: quizes){
            subs.add(quizService.getAllStudentsQuizSubmissions(quiz.getId()));
-
        }
         return ResponseEntity.status(HttpStatus.CREATED).body(subs);
     }
 
     @PreAuthorize("hasAuthority('STUDENT')")
     @PostMapping("/{quizId}/submitQuiz")
-    public ResponseEntity<?> submitQuiz(@PathVariable String courseId, @PathVariable Long quizId ,@RequestBody QuizSubmission quizSubmission) {
+    public ResponseEntity<?> submitQuiz(@PathVariable String courseId, @PathVariable Long quizId ,@RequestBody QuizSubmission quizSubmission , @RequestHeader("Authorization") String tokenHeader) {
+
+        String token = tokenHeader.startsWith("Bearer ") ? tokenHeader.substring(7) : tokenHeader;
+        String studentId;
+        try {
+            studentId = jwtService.extractUsername(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token.");
+        }
+
+        Course course = courseService.getCourseById(courseId);
+        if (course == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course doesn't exist.");
+        }
+
+        if(!courseService.checkStudentEnrollment(studentId,courseId)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You have not enrolled in this Course");
+        }
+
+        if(!Objects.equals(studentId, quizSubmission.getStudentID())){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Student id doesn't match.");
+        }
+
         Quiz quiz = quizService.getSpecificQuiz(courseId, quizId);
         if (quiz == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No quiz found with this ID.");
-
         }
         if (quiz.getQuizQuestions().size() != quizSubmission.getStudentAnswers().size()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Some Questions Are Not Answered,Please answer all questions.");

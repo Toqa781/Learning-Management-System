@@ -13,6 +13,7 @@ import com.example.demo.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
@@ -39,6 +40,7 @@ public class ExcelGenerateController {
     @Autowired
     private QuizService quizService;
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/assignments/generateExcel")
     public ResponseEntity<?> generateAssignmentExcelReport(@PathVariable String courseId) {
         Course course = courseService.getCourseById(courseId);
@@ -69,6 +71,8 @@ public class ExcelGenerateController {
         }
     }
 
+
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'INSTRUCTOR')")
     @GetMapping("/quizes/generateExcel")
     public ResponseEntity<?> generateQuizExcelReport(@PathVariable String courseId) {
         Course course = courseService.getCourseById(courseId);

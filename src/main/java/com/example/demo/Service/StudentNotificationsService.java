@@ -7,6 +7,7 @@ import com.example.demo.Model.Notifications;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Repository.NotificationsRepository;
 import com.example.demo.Repository.StudentNotificationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,8 @@ import java.util.List;
 @Service
 public class StudentNotificationsService{
 
-    private final NotificationsRepository notificationRepository;
+    @Autowired
+    private NotificationsRepository notificationRepository;
 
     public StudentNotificationsService(NotificationsRepository notificationsRepository) {
         this.notificationRepository = notificationsRepository;

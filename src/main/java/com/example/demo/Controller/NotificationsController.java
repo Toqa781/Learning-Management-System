@@ -37,8 +37,6 @@ public class NotificationsController {
 //        return ResponseEntity.ok(notifications);
 //    }
 
-
-    // GET: Retrieve notifications for instructors (students enrolling in their courses)
     @GetMapping("/instructor/{userId}")
     public ResponseEntity<List<Notifications>> getInstructorNotifications(@PathVariable String userId) {
         List<Notifications> notifications = notificationService.getInstructorNotifications(userId);
@@ -47,7 +45,6 @@ public class NotificationsController {
                 : ResponseEntity.ok(notifications);
     }
 
-    // GET: Retrieve notifications for a specific student
     @GetMapping("/student/{id}")
     public ResponseEntity<List<Notifications>> getNotificationsForStudent(@PathVariable("id") Long studentId) {
         List<Notifications> notifications = notificationService.getNotificationsForStudent(studentId);
@@ -58,7 +55,6 @@ public class NotificationsController {
 
 }
 
-// DTO for sending notifications to all students
 class NotificationAllRequest {
     private String content;
     private List<Long> studentIds;

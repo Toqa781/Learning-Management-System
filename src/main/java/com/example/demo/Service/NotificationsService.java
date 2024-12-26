@@ -8,6 +8,7 @@ import com.example.demo.Model.Notifications;
 import com.example.demo.Model.Users.User;
 import com.example.demo.Repository.NotificationsRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,8 @@ import java.util.*;
 @Service
 public class NotificationsService {
 
-    private final NotificationsRepository notificationRepository;
+    @Autowired
+    private NotificationsRepository notificationRepository;
     private final Map<Long, List<Notifications>> inMemoryNotificationMap = new HashMap<>();
     private Long currentId = 1L;
 

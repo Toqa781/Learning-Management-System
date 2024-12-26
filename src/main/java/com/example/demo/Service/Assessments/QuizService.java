@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,8 +47,9 @@ public class QuizService {
 
     public Quiz saveQuiz(Quiz quiz, Course course) {
         quiz.setCourseId(course.getCourseId());
+        quiz.setAssignedDate(LocalDateTime.now());
         quiz.setQuizQuestions(createQuizQuestions(quiz.getNumberOfQuestions(), questionBankRepository.findByCourseId(course.getCourseId()).getQuestionList()));
-        // Save the quiz
+
         Quiz savedQuiz = quizRepository.save(quiz);
 
         // Notify students about the new quiz

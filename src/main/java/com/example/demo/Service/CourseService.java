@@ -17,11 +17,11 @@ import java.util.*;
 public class CourseService {
 
     @Autowired
-    private  CourseRepository courseRepository;
-
+    private CourseRepository courseRepository;
     @Autowired
-    private  NotificationsService notificationsService;
-    private final StudentNotificationsService
+    private NotificationsService notificationsService;
+    @Autowired
+    private StudentNotificationsService
             studentnotificationsService;
 
     public CourseService(CourseRepository courseRepository, NotificationsService notificationsService, StudentNotificationsService studentnotificationsService) {
@@ -48,7 +48,7 @@ public class CourseService {
 
 
     public Course getCourseById(String courseId) {
-        return  courseRepository.findById(courseId).orElse(null);
+        return courseRepository.findById(courseId).orElse(null);
     }
 
     public void addLessonToCourse(String courseId, Lesson lesson) {
@@ -72,13 +72,23 @@ public class CourseService {
         courseRepository.save(course);
         // Notify the instructor
         String message = "Student " + student.getUserId() + " has enrolled in your course: " + course.getCourseName();
-        notificationsService.createNotification(course.getCreator(), message, "student_enrollment",course);
+        notificationsService.createNotification(course.getCreator(), message, "student_enrollment", course);
     }
 
     @Transactional
     public List<Student> getEnrolledStudents(String courseId) {
         Course course = getCourseById(courseId); // Ensures course exists
         return course.getEnrolledStudents();
+    }
+
+    public boolean checkStudentEnrollment(String studentId, String courseId) {
+        List<Student> enrolledStudents = getEnrolledStudents(courseId);
+        for (Student student : enrolledStudents) {
+            if (student.getUserId().equals(studentId)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Transactional
@@ -93,10 +103,7 @@ public class CourseService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Student is not enrolled in the course"));
 
-        Lesson lesson = course.getLessons().stream()
-                .filter(l -> l.getLessonId().equals(lessonId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Lesson not found"));
+       Lesson lesson= getLessonInCourse(course , lessonId);
 
         if (lesson.validateOtp(otp)) {
             student.attendLesson(lessonId);
@@ -105,6 +112,16 @@ public class CourseService {
             throw new IllegalArgumentException("Invalid OTP");
         }
     }
+
+    public Lesson getLessonInCourse(Course course , String lessonId){
+        Lesson lesson = course.getLessons().stream()
+                .filter(l -> l.getLessonId().equals(lessonId))
+                .findFirst()
+                .orElse( null);
+
+        return lesson;
+    }
+
 
 
 

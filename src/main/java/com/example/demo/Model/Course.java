@@ -37,9 +37,6 @@ public class Course {
     @OneToMany(mappedBy = "enrolledCourse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Student> enrolledStudents = new ArrayList<>();
 
-
-
-
     public Course() {}
 
     public Course(String courseId, String courseName, String courseDescription,Instructor creator) {
@@ -110,5 +107,6 @@ public class Course {
     public void setCreator(Instructor creator) {
         this.creator = creator;
     }
+
 }
 
