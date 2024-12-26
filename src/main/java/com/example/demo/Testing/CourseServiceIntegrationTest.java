@@ -5,6 +5,7 @@ import com.example.demo.Repository.CourseRepository;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.CourseService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.example.demo.Model.Course;
 
@@ -14,10 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class CourseServiceIntegrationTest {
 
+    @Autowired
     private CourseService courseService;
 
+    @Autowired
     private CourseRepository courseRepository;
 
+    @Autowired
     private UserRepository userRepository;
 
     @Test
