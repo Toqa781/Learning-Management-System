@@ -1,12 +1,11 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Model.*;
-import com.example.demo.Model.Assessments.Assignment;
+import com.example.demo.Model.Course;
+import com.example.demo.Model.Lesson;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Service.*;
 import com.example.demo.Service.Authentication.JWTService;
-import com.example.demo.Service.Authentication.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

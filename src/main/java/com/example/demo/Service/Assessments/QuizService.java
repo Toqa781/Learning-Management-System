@@ -1,9 +1,5 @@
 package com.example.demo.Service.Assessments;
 
-import com.example.demo.Model.Assessments.Questions.Essay;
-import com.example.demo.Model.Assessments.Questions.MCQ;
-import com.example.demo.Model.Assessments.Questions.TrueOrFalse;
-import com.example.demo.Model.Assessments.Submissions.AssignmentSubmission;
 import com.example.demo.Model.Assessments.Submissions.QuizSubmission;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Questions.Question;
@@ -12,16 +8,12 @@ import com.example.demo.Model.Users.Student;
 import com.example.demo.Repository.Assesments.Questions.QuestionBankRepository;
 import com.example.demo.Repository.Assesments.QuizRepository;
 import com.example.demo.Repository.Assesments.Submissions.QuizSubmissionRepository;
-import com.example.demo.Service.CourseService;
 import com.example.demo.Service.NotificationsService;
 import com.example.demo.Service.StudentNotificationsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;

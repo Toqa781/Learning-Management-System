@@ -1,13 +1,9 @@
 package com.example.demo.Service;
 
-import com.example.demo.Model.Assessments.Assignment;
-import com.example.demo.Model.Assessments.Quiz;
 import com.example.demo.Model.Course;
-import com.example.demo.Model.Lesson;
 import com.example.demo.Model.Notifications;
 import com.example.demo.Model.Users.User;
 import com.example.demo.Repository.NotificationsRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

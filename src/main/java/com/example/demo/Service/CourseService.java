@@ -1,9 +1,7 @@
 package com.example.demo.Service;
 
-import com.example.demo.Model.*;
-import com.example.demo.Model.Assessments.Assignment;
-import com.example.demo.Model.Assessments.Questions.QuestionBank;
-import com.example.demo.Model.Users.Admin;
+import com.example.demo.Model.Course;
+import com.example.demo.Model.Lesson;
 import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Repository.CourseRepository;

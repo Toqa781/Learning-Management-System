@@ -4,7 +4,6 @@ import com.example.demo.Model.Assessments.Questions.*;
 import com.example.demo.Model.Assessments.Submissions.QuizSubmission;
 import com.example.demo.Model.Course;
 import com.example.demo.Model.Assessments.Quiz;
-import com.example.demo.Model.Users.Student;
 import com.example.demo.Service.Assessments.QuestionBankService;
 import com.example.demo.Service.Authentication.JWTService;
 import com.example.demo.Service.CourseService;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 

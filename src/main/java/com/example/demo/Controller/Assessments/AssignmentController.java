@@ -1,7 +1,6 @@
 package com.example.demo.Controller.Assessments;
 
 import com.example.demo.Model.Assessments.Assignment;
-import com.example.demo.Model.Assessments.Grading;
 import com.example.demo.Model.Course;
 import com.example.demo.Service.Assessments.AssignmentService;
 import com.example.demo.Service.CourseService;
@@ -19,8 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 
 @RestController
