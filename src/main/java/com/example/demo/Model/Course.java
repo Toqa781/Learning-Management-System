@@ -34,8 +34,9 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Lesson> lessons = new ArrayList<>();
 
-    @OneToMany(mappedBy = "enrolledCourse", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "enrolledCourse", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Student> enrolledStudents = new ArrayList<>();
+
 
 
     public Course() {}
@@ -75,6 +76,10 @@ public class Course {
 
     public List<Lesson> getLessons() {
         return lessons;
+    }
+
+    public List<Student> getEnrolledStudents() {
+        return new ArrayList<>(this.enrolledStudents); // Return a copy to prevent external modification
     }
 
     public void setCourseId(String courseId) {

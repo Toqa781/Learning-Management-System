@@ -4,6 +4,8 @@ import com.example.demo.Model.Users.Instructor;
 import com.example.demo.Model.Users.Student;
 import com.example.demo.Service.*;
 import com.example.demo.Service.Authentication.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +14,6 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-//@RequestMapping("/{userId}/courses")
 @RequestMapping("/courses")
 
 public class CourseController {
@@ -74,8 +75,19 @@ public class CourseController {
     }
 
     @PostMapping("/{courseId}/lessons/{lessonId}/attend")
-    @PreAuthorize("hasAnyAuthority('STUDENT')")
-    public void attendLesson(@PathVariable String courseId, @PathVariable String lessonId, @RequestParam String otp, @RequestBody Student student) {
-        courseService.attendLesson(courseId, student, lessonId, otp);
+    @PreAuthorize("hasAuthority('STUDENT')")
+    public ResponseEntity<String> attendLesson(
+            @PathVariable String courseId,
+            @PathVariable String lessonId,
+            @RequestParam String otp,
+            @RequestBody Student student) {
+
+        try {
+            courseService.attendLesson(courseId, student, lessonId, otp);
+            return ResponseEntity.ok("Lesson attended successfully.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
+
 }

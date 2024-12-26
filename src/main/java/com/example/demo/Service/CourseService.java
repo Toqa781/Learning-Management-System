@@ -63,6 +63,7 @@ public class CourseService {
 
     }
 
+    @Transactional
     public void enrollCourse(String courseId, Student student) {
         Course course = getCourseById(courseId); // Ensures course exists
         course.enrollStudent(student);
@@ -75,13 +76,21 @@ public class CourseService {
     @Transactional
     public List<Student> getEnrolledStudents(String courseId) {
         Course course = getCourseById(courseId); // Ensures course exists
-        course.getEnrolledStudents().size();
         return course.getEnrolledStudents();
     }
 
     @Transactional
-    public void attendLesson(String courseId, Student student, String lessonId, String otp) {
-        Course course = getCourseById(courseId); // Ensures course exists
+    public void attendLesson(String courseId, Student inputStudent, String lessonId, String otp) {
+        Course course = getCourseById(courseId); // Fetch course from the database
+        if (course == null) {
+            throw new IllegalArgumentException("Course not found");
+        }
+
+        Student student = course.getEnrolledStudents().stream()
+                .filter(enrolledStudent -> enrolledStudent.getUserId().equals(inputStudent.getUserId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Student is not enrolled in the course"));
+
         Lesson lesson = course.getLessons().stream()
                 .filter(l -> l.getLessonId().equals(lessonId))
                 .findFirst()
@@ -89,15 +98,13 @@ public class CourseService {
 
         if (lesson.validateOtp(otp)) {
             student.attendLesson(lessonId);
-            course.getEnrolledStudents().stream()
-                    .filter(enrolledStudent -> enrolledStudent.getUserId().equals(student.getUserId()))
-                    .findFirst()
-                    .ifPresent(enrolledStudent -> enrolledStudent.attendLesson(lessonId));
             courseRepository.save(course);
         } else {
             throw new IllegalArgumentException("Invalid OTP");
         }
     }
+
+
 
 //    public void assignQuestionBankToCourse(String courseId , QuestionBank questionBank){
 //        Course course = getCourseById(courseId);
