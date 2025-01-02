@@ -48,8 +48,7 @@ The Java-Based Learning Management System (LMS) is a backend-focused web applica
 - **System Notifications:**
   - Students receive notifications for enrollment confirmations, graded assignments, and updates.
   - Instructors get notifications for new student enrollments.
-  - Notifications can be filtered by "unread" or "all."
-
+  - 
 ### Bonus Features
 - **Role-Based Access Control:**
   - Spring Security for authentication and authorization.
